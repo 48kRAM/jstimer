@@ -12,6 +12,8 @@ jstimer has an auto-hiding GUI for selecting timer presets or entering a time ma
 Usage
 -----
 
+jstimer lite is a single-file HTML/javascript timer application. To use it, open it in the web browser of your choice (Firefox and Safari tested). FOr best results, set your browser in fullscreen mode and hide any toolbars.
+
 jstimer comes configured with a number of timer "preset" useful to me, but you'll probably want to configure it for your desired timings. To do this, simply edit the timer.html file and add in buttons for the timings you need. Near the bottom of the file, you'll see a number of button elements defined. Each one includes an onClick event which starts the timer with a specific countdown time. You can edit any of the existing buttons to set the timings you need.
 
 Presentation vs. Q&A
