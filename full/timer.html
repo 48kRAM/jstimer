@@ -2,7 +2,7 @@
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="UTF-8" />
-    <title>NRAO Timer</title>
+    <title>JS Timer</title>
     <script src="Chart.js"></script>
     <script language="JavaScript">
     var ticks=0; var mins=0; var secs=0;
@@ -145,7 +145,10 @@
 
     <script janguage="Javascript">
     var ctx = document.getElementById("piegraph").getContext("2d");
-    var pieChart = new Chart(ctx).Pie(timedata);
+    Chart.defaults.global.animation=false;
+    var pieChart = new Chart(ctx).Pie(timedata, {
+	animateScale: false
+	});
     </script>
 
   </body>
