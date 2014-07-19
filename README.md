@@ -9,6 +9,8 @@ jstimer displays a large countdown clock along with a bar graph indicating the u
 
 jstimer has an auto-hiding GUI for selecting timer presets or entering a time manually. Once timing begins, the GUI is hidden so that an attractive countdown is shown to the speaker. Clicking on the counting time pauses the countdown and displays the GUI again. You can resume the countdown by clicking the "Resume Countdown" button and the GUI will once again disapper and the timer will contiue counting from the point at which it was paused.
 
+There is a live demo version available at http://www.cv.nrao.edu/~jmalone/tools/jstimer/timer.html
+
 Usage
 -----
 
