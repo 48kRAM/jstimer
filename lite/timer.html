@@ -6,23 +6,22 @@
     <script language="JavaScript">
     var ticks=0; var mins=0; var secs=0;
     var counter; var timeStr; var talkPart=0;
-    var qaTime;
-    var talkLen; var seconds=0;
+    var qaTime; var talkTime; var elapsed=0;
     function userTimer(F) {
     	startTimer(F.userTalk.value*60, F.userQA.value*60);
     }
     function startTimer(talkSecs, qaSecs) {
+	var x=document.getElementById('autoQA');
 	if (talkSecs>0) {
-	    talkLen=talkSecs+qaSecs
-	    seconds=0;
+	    elapsed=0;
 	    document.getElementById("mode").innerHTML="Presentation";
+	    talkTime=talkSecs;
 	    ticks=talkSecs;
 	    talkPart=1;
-	    if (qaSecs>0) {
-		qaTime=qaSecs;
-	    }
+	    qaTime=qaSecs;
 	} else {
 	    if (qaSecs>0) {
+		elapsed=0;
 		document.getElementById("mode").innerHTML="Question / Answer";
 		talkPart=2;
 		ticks=qaSecs;
@@ -30,28 +29,33 @@
 	}
 	updateDisplay();
 	document.getElementById('gui').style.visibility='hidden';
-	document.getElementById('timer').style.color='white';
+	document.getElementById('timer').style.color='#000';
 	document.getElementById("timer").style.fontSize="17em";
 	counter=setInterval(timerFunc, 1000);
     }
     function updateDisplay() {
+	var talkLen;
 	var elem=document.getElementById("timer");
     	mins=Math.floor(ticks/60);
 	secs=ticks-(mins*60);
 	if(secs.toString().length<2) { secs='0'+secs; }
 	elem.innerHTML=mins +":" +secs;
 	divlen=document.getElementById('progress').clientWidth;
-	barlen=Math.ceil(seconds/talkLen*divlen);
+	var x=document.getElementById('autoQA');
+	if (x.checked) { talkLen=qaTime + talkTime; }
+	else { talkLen=talkTime; }
+	barlen=Math.ceil(elapsed/talkLen*divlen);
 	document.getElementById('bar').style.width=barlen+'px';
     }
     function timerFunc() {
 	ticks=ticks-1;
-	seconds=seconds+1;
+	elapsed=elapsed+1;
 	if (ticks <=0 ) {
 	    var x=document.getElementById('autoQA');
 	    if (talkPart==1 && x.checked) {
 		talkPart=2;
-		ticks=qaTime;   updateDisplay();
+		ticks=qaTime;
+		updateDisplay();
 		document.getElementById("mode").innerHTML="Question / Answer";
 	    } else {
 		updateDisplay();
@@ -60,6 +64,7 @@
 		elem.style.fontSize="10em";
 		elem.innerHTML="Your time has expired!";
 		document.getElementById("mode").innerHTML="";
+		timeIsUp();
 		counter=setInterval(timeIsUp, 700);
 	    }
 	} else {
@@ -67,63 +72,66 @@
 	}
     }
     function showGui() {
-	document.getElementById('timer').style.color='white';
+	document.getElementById('timer').style.color='black';
 	document.getElementById("gui").style.visibility='visible';
 	clearInterval(counter);
     }
     function timeIsUp() {
     	var elem=document.getElementById("timer");
-	if (elem.style.color=="white") {
+	if (elem.style.color=="black") {
 	    elem.style.color = "red";
 	} else {
-	    elem.style.color = "white";
+	    elem.style.color = "black";
 	}
     }
     
     </script>
     <style>
-	body { background-color: #000; color: #fff; }
+	body { background-color: #eee; color: #000; }
 	button { -webkit-appearance: none; }
 	#mode { text-align: center; height: 100px; font-size: 5em; }
+        #textdiv { width: 98%; height: 500px; display: table;
+                position: absolute; top: 100px; text-align: center;
+                }
         #timer { height: 370px; font-size: 17em; text-align: center;}
-	#gui { height: 80px; }
-	#progress { margin-left: auto;
-		margin-right: auto; width: 70%;
-		border: 1px solid #fff; height:20px;
-		background-color: #2f2; }
+	#progress { margin-left: auto; margin-right: auto; width: 70%;
+		border: 1px solid #000; height:20px;
+		background-color: #2f2;
+		position: relative; top: 400px;
+	     }
 	#bar { background-color: #f33; height: 20px; width: 0%; }
+        #gui { position: absolute; width: 120px; left: 20px;
+                top: 125px; z-index: 3; background-color: #eeeeee;
+            }
     </style>
   </head>
   <body onLoad="updateDisplay()">
-    <div id="mode"></div>
-    <div id="timer" onClick="showGui()">
+
+    <div id="gui">
+	<button onClick="startTimer(60,60)">Demo<br/>1 / 1</button>
+	<button onClick="startTimer(15*60,5*60)">Normal talk<br/>15 / 5</button>
+	<button onClick="startTimer(35*60,5*60)">Invited talk<br/>35 / 5</button>
+	<button onClick="startTimer(10,10)">Quick test<br/>:10 / :10</button>
+	<br/>
+	<b>Custom timer: </b> &nbsp;
+	<form name="usertime">
+	<input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
+	&nbsp;<br/>
+	<input type="button" value="Custom countdown" onClick="userTimer(this.form)">
+	</form>
+	<br/>
+	<form name="qaMode">
+	<input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
+	</form>
+	<button onClick="startTimer(0,0)">Resume countdown</button>
+    </div>
+
+    <div id="mode">JS Timer</div>
+    <div id="textdiv" onClick="showGui()">
+        <span id="timer" > </span>
+    </div>
     </div>
     <div id="progress"><div id="bar"></div></div>
-    <div id="gui">
-      <table class="guiTable">
-         <tr>
-	    <td>
-		<button onClick="startTimer(60,60)">1 / 1</button>
-		<button onClick="startTimer(15*60,5*60)">Normal talk<br/>15 / 5</button>
-		<button onClick="startTimer(35*60,5*60)">Invited talk<br/>35 / 5</button>
-		<button onClick="startTimer(10,10)">Quick test<br/>:10 / :10</button>
-		<br/><br/>
-		<b>Custom timer: </b> &nbsp;
-		<form name="usertime">
-		<input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
-		&nbsp;
-		<input type="button" value="Custom countdown" onClick="userTimer(this.form)">
-		</form>
-		<br/>
-		<button onClick="startTimer(0,0)">Resume countdown</button>
-	    </td><td>
-		<form name="qaMode">
-	        <input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
-		</form>
-	    </td>
-	</tr>
-      </table>
-    </div>
     
   </body>
 </html>

@@ -7,23 +7,20 @@
     <script language="JavaScript">
     var ticks=0; var mins=0; var secs=0;
     var counter; var timeStr; var talkPart=0;
-    var qaTime;
-    var talkLen; var elapsed=0;
+    var qaTime; var talkLen; var elapsed=0;
     function userTimer(F) {
     	startTimer(F.userTalk.value*60, F.userQA.value*60);
     }
     function startTimer(talkSecs, qaSecs) {
 	if (talkSecs>0) {
-	    talkLen=talkSecs+qaSecs
 	    elapsed=0;
 	    document.getElementById("mode").innerHTML="Presentation";
 	    ticks=talkSecs;
 	    talkPart=1;
-	    if (qaSecs>0) {
-		qaTime=qaSecs;
-	    }
+	    qaTime=qaSecs;
 	} else {
 	    if (qaSecs>0) {
+		elapsed=0;
 		document.getElementById("mode").innerHTML="Question / Answer";
 		talkPart=2;
 		ticks=qaSecs;
@@ -46,7 +43,12 @@
 	    if (talkPart==2) {
 		pieChart.segments[1].value=ticks;
 	    } else {
-		pieChart.segments[1].value=ticks+qaTime;
+		var x=document.getElementById('autoQA');
+		if (x.checked) {
+		    pieChart.segments[1].value=ticks+qaTime;
+		} else { 
+		    pieChart.segments[1].value=ticks;
+		}
 	    }
 	    pieChart.update();
 	}
@@ -113,8 +115,9 @@
 		width: 100%; z-index: 1; height: 100%;
 		vertical-align: middle; display: table-cell;
 		}
-	#gui { position: relative; width: 120px; height: 0px;
-	    left: 20px; top: 130px; float: left; z-index: 3; }
+	#gui { position: absolute; width: 120px; left: 20px;
+		top: 130px; z-index: 3; background-color: #eeeeee;
+	    }
     </style>
   </head>
   <body onLoad="updateDisplay()">
