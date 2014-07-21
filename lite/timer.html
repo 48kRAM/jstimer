@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>JS Timer</title>
     <script language="JavaScript">
@@ -104,13 +104,14 @@
         #timer { height: 370px; font-size: 17em; text-align: center;}
 	#progress { margin-left: auto; margin-right: auto; width: 70%;
 		border: 1px solid #000; height:20px;
-		background-color: #2f2;
+		background-color: #2f2; border-radius: 8px;
 		position: relative; top: 400px;
 	     }
-	#bar { background-color: #f33; height: 20px; width: 0%; }
+	#bar { background-color: #f33; height: 20px; width: 0%;
+		border-radius: 7px; }
     </style>
-  </head>
-  <body onLoad="updateDisplay()">
+</head>
+<body onLoad="updateDisplay()">
 
     <div id="gui">
 	<button onClick="startTimer(60,60)">Demo<br/>1 / 1</button>
@@ -127,7 +128,8 @@
 	</form>
 	<hr/>
 	<form name="qaMode">
-	<input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
+	<input type="checkbox" id="autoQA" checked="checked" value="1">
+	    Auto-advance to Q/A
 	</form>
 	<button onClick="startTimer(0,0)">Resume countdown</button>
     </div>
@@ -139,6 +141,6 @@
     </div>
     <div id="progress"><div id="bar"></div></div>
     
-  </body>
+</body>
 </html>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>JS Timer</title>
     <script src="Chart.js"></script>
@@ -99,8 +99,7 @@
 	    	value: 40,
 		color: "#22cc22",
 		label: ""
-	    }
-	];
+	    } ];
     </script>
     <style>
 	body { background-color: #eee; color: #000; }
@@ -113,7 +112,7 @@
                 top: 125px; z-index: 3; background-color: #11cc66;
                 padding-left: 12px; padding-top: 5px; padding-bottom: 5px;
                 border-radius: 5px;
-            }
+		}
 	#graphholder { width: 99%; height: 500px; text-align: center; }
 	#piegraph { z-index: -1; width: 500px; position: relative; }
         #textdiv { width: 98%; height: 500px; display: table;
@@ -124,8 +123,8 @@
 		vertical-align: middle; display: table-cell;
 		}
     </style>
-  </head>
-  <body onLoad="updateDisplay()">
+</head>
+<body onLoad="updateDisplay()">
 
     <div id="gui">
         <button onClick="startTimer(60,60)">Demo<br/>1 / 1</button>
@@ -142,7 +141,8 @@
         </form>
         <hr/>
         <form name="qaMode">
-        <input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
+        <input type="checkbox" id="autoQA" checked="checked" value="1">
+	    Auto-advance to Q/A
         </form>
         <button onClick="startTimer(0,0)">Resume countdown</button>
     </div>
@@ -155,7 +155,6 @@
 	<span id="timer" > </span>
     </div>
     
-
     <script janguage="Javascript">
     var ctx = document.getElementById("piegraph").getContext("2d");
     Chart.defaults.global.animation=false;
@@ -164,6 +163,6 @@
 	});
     </script>
 
-  </body>
+</body>
 </html>
 
