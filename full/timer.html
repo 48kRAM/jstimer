@@ -104,8 +104,16 @@
     </script>
     <style>
 	body { background-color: #eee; color: #000; }
-	button { -webkit-appearance: none; }
+        input[type=button], button {
+                -webkit-appearance: none;
+                width: 100px; padding: 4px;
+                }
 	#mode { text-align: center; width: 99%; height: 100px; font-size: 5em; }
+        #gui { position: absolute; width: 115px; left: 20px;
+                top: 125px; z-index: 3; background-color: #11cc66;
+                padding-left: 12px; padding-top: 5px; padding-bottom: 5px;
+                border-radius: 5px;
+            }
 	#graphholder { width: 99%; height: 500px; text-align: center; }
 	#piegraph { z-index: -1; width: 500px; position: relative; }
         #textdiv { width: 98%; height: 500px; display: table;
@@ -115,32 +123,29 @@
 		width: 100%; z-index: 1; height: 100%;
 		vertical-align: middle; display: table-cell;
 		}
-	#gui { position: absolute; width: 120px; left: 20px;
-		top: 130px; z-index: 3; background-color: #eeeeee;
-	    }
     </style>
   </head>
   <body onLoad="updateDisplay()">
 
     <div id="gui">
-	<button onClick="startTimer(60,60)">Demo<br/>1 / 1</button><br/>
-	<button onClick="startTimer(15*60,5*60)">Normal talk<br/>15 / 5</button><br/>
-	<button onClick="startTimer(35*60,5*60)">Invited talk<br/>35 / 5</button><br/>
-	<button onClick="startTimer(10,10)">Quick test<br/>:10 / :10</button><br/>
-	<br/>
-	<b>Custom timer: </b> &nbsp;
-	<form name="usertime">
-	<input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
-	&nbsp;<br/>
-	<input type="button" value="Custom countdown" onClick="userTimer(this.form)">
-	</form>
-	<br/>
-	<form name="qaMode">
-	<input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
-	</form>
-	<button onClick="startTimer(0,0)">Resume countdown</button>
+        <button onClick="startTimer(60,60)">Demo<br/>1 / 1</button>
+        <button onClick="startTimer(15*60,5*60)">Normal talk<br/>15 / 5</button>
+        <button onClick="startTimer(35*60,5*60)">Invited talk<br/>35 / 5</button>
+        <button onClick="startTimer(10,10)">Quick test<br/>:10 / :10</button>
+        <br/><br/>
+        <hr/>
+        <b>Custom timer: </b> &nbsp;
+        <form name="usertime">
+        <input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
+        &nbsp;<br/>
+        <input type="button" value="Start timer" onClick="userTimer(this.form)">
+        </form>
+        <hr/>
+        <form name="qaMode">
+        <input type="checkbox" id="autoQA" checked="checked" value="1">Auto-advance to Q/A
+        </form>
+        <button onClick="startTimer(0,0)">Resume countdown</button>
     </div>
-
 
     <div id="mode">JS Timer</div>
     <div id="graphholder">
