@@ -8,6 +8,7 @@
     var ticks=0; var mins=0; var secs=0;
     var counter; var timeStr; var talkPart=0;
     var qaTime; var talkLen; var elapsed=0;
+
     function userTimer(F) {
     	startTimer(F.userTalk.value*60, F.userQA.value*60);
     }
@@ -27,6 +28,7 @@
 	    }
 	}
 	updateDisplay();
+	document.getElementById('graphholder').style.visibility='visible';
 	document.getElementById('gui').style.visibility='hidden';
 	document.getElementById('timer').style.color='#000';
 	document.getElementById("timer").style.fontSize="17em";
@@ -34,6 +36,7 @@
     }
     function updateDisplay() {
 	var clock=document.getElementById("timer");
+	var x=document.getElementById('autoQA');
     	mins=Math.floor(ticks/60);
 	secs=ticks-(mins*60);
 	if(secs.toString().length<2) { secs='0'+secs; }
@@ -41,14 +44,15 @@
 	if(elapsed>0 || ticks>0) {
 	    pieChart.segments[0].value=elapsed;
 	    if (talkPart==2) {
-		pieChart.segments[1].value=ticks;
-	    } else {
-		var x=document.getElementById('autoQA');
-		if (x.checked) {
-		    pieChart.segments[1].value=ticks+qaTime;
-		} else { 
-		    pieChart.segments[1].value=ticks;
+		pieChart.segments[1].value=0;
+		if (x.checked && qaTime>0) {
+		    pieChart.segments[2].value=ticks;
 		}
+	    } else {
+		pieChart.segments[1].value=ticks;
+		if(x.checked && qaTime>0) {
+		    pieChart.segments[2].value=qaTime;
+		} else { pieChart.segments[2].value=0; }
 	    }
 	    pieChart.update();
 	}
@@ -90,6 +94,23 @@
 	    elem.style.color = "black";
 	}
     }
+    function showClock() {
+	document.getElementById("mode").innerHTML="Time of Day";
+	document.getElementById('gui').style.visibility='hidden';
+	document.getElementById('graphholder').style.visibility='hidden';
+	document.getElementById('timer').style.color='#000';
+	document.getElementById("timer").style.fontSize="17em";
+	clockFunc();
+	counter=setInterval(clockFunc, 1000);
+    }
+    function clockFunc() {
+	var now=new Date();
+        var hour=now.getHours();
+	var minute=now.getMinutes();
+	if (hour > 12) { hour-=12; }
+	if (minute < 10) { minute='0'+minute; }
+	document.getElementById("timer").innerHTML=hour+":"+minute;
+    }
     var timedata = [
 	    {
 		value: 00,
@@ -99,7 +120,12 @@
 	    	value: 40,
 		color: "#22cc22",
 		label: ""
-	    } ];
+	    }, {
+	    	value: 0,
+		color: "#ff9900",
+		label: ""
+	    }
+	];
     </script>
     <style>
 	body { background-color: #eee; color: #000; }
@@ -127,10 +153,11 @@
 <body onLoad="updateDisplay()">
 
     <div id="gui">
-        <button onClick="startTimer(60,60)">Demo<br/>1 / 1</button>
-        <button onClick="startTimer(15*60,5*60)">Normal talk<br/>15 / 5</button>
-        <button onClick="startTimer(35*60,5*60)">Invited talk<br/>35 / 5</button>
-        <button onClick="startTimer(10,10)">Quick test<br/>:10 / :10</button>
+        <button onClick="startTimer(15*60,5*60)">Twenty minute<br/>15 / 5</button>
+        <button onClick="startTimer(20*60,10*60)">30 minute<br/>20 / 10</button>
+        <button onClick="startTimer(20*60, 0)">No Q&amp;A<br/>20 mins</button>
+        <button onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
+        <button onClick="showClock()">Real-time<br/>clock</button>
         <br/><br/>
         <hr/>
         <b>Custom timer: </b> &nbsp;
@@ -142,7 +169,7 @@
         <hr/>
         <form name="qaMode">
         <input type="checkbox" id="autoQA" checked="checked" value="1">
-	    Auto-advance to Q/A
+	    Use Q&amp;A
         </form>
         <button onClick="startTimer(0,0)">Resume countdown</button>
     </div>
