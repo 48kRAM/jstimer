@@ -111,6 +111,26 @@
 	if (minute < 10) { minute='0'+minute; }
 	document.getElementById("timer").innerHTML=hour+":"+minute;
     }
+    function setupGui() {
+
+    }
+    function doSettings() {
+	var sForm=document.getElementById("setform");
+	var pr1=sForm.elements["pres1"].value;
+	var qa1=sForm.elements["qa1"].value;
+	localStorage["pr1"]=pr1;
+	localStorage["qa1"]=qa1;
+	var pr2=sForm.elements["pres2"].value;
+	var qa2=sForm.elements["qa2"].value;
+	localStorage["pr2"]=pr2;
+	localStorage["qa2"]=qa2;
+	var pr3=sForm.elements["pres3"].value;
+	var qa3=sForm.elements["qa3"].value;
+	localStorage["pr3"]=pr3;
+	localStorage["qa3"]=qa3;
+	updateDisplay();
+	return false;
+    }
     var timedata = [
 	    {
 		value: 00,
@@ -139,6 +159,9 @@
                 padding-left: 12px; padding-top: 5px; padding-bottom: 5px;
                 border-radius: 5px;
 		}
+	#settings { position: absolute; width: 115px; right: 25px;
+		top: 125px; z-index: 3;
+		}
 	#graphholder { width: 99%; height: 500px; text-align: center; }
 	#piegraph { z-index: -1; width: 500px; position: relative; }
         #textdiv { width: 98%; height: 500px; display: table;
@@ -152,10 +175,29 @@
 </head>
 <body onLoad="updateDisplay()">
 
+    <div id="settings" style="float:right">
+	<form id="setform" onsubmit="return doSettings();">
+	Pre 1: <input type="text" size="12" name="name1" /><br/>
+	<input type="text" size="3" name="pres1" />
+	<input type="text" size="3" name="qa1" />
+	<br/>
+	Pre 2:  <input type="text" size="12" name="name1" /><br/>
+	<input type="text" size="3" name="pres2" />
+	<input type="text" size="3" name="qa2" />
+	<br/>
+	Pre 3: <input type="text" size="12" name="name3" /><br/>
+	<input type="text" size="3" name="pres3" />
+	<input type="text" size="3" name="qa3" /> <br/>
+	<input type="submit" value="Save settings">
+	</form>
+    </div>
+
     <div id="gui">
+	<div id="presets">
         <button onClick="startTimer(15*60,5*60)">Twenty minute<br/>15 / 5</button>
         <button onClick="startTimer(20*60,10*60)">30 minute<br/>20 / 10</button>
         <button onClick="startTimer(20*60, 0)">No Q&amp;A<br/>20 mins</button>
+	</div>
         <button onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
         <button onClick="showClock()">Real-time<br/>clock</button>
         <br/><br/>
