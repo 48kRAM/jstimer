@@ -112,22 +112,32 @@
 	document.getElementById("timer").innerHTML=hour+":"+minute;
     }
     function setupGui() {
-
+    	var presetpane=document.getElementById("presets");
+	presetpane.innerHTML='';
+	for (var i=0; i<2; i++) {
+        //<button onClick="startTimer(15*60,5*60)">Twenty minute<br/>15 / 5</button>
+	    pmin=localStorage["pr"+i];
+	    qmin=localStorage["qa"+i];
+	    name=localStorage["name"+i];
+	    psec=pmin+60;
+	    qsec=qmin*60;
+	    var bStr="<button onClick='startTimer("+psec+","+
+		qsec+")'>"+name+"<br/>"+pmin+" / "+qmin+"</button>";
+	    //alert(bStr);
+	    presetpane.innerHTML+=bStr;
+	}
     }
     function doSettings() {
-	var sForm=document.getElementById("setform");
-	var pr1=sForm.elements["pres1"].value;
-	var qa1=sForm.elements["qa1"].value;
-	localStorage["pr1"]=pr1;
-	localStorage["qa1"]=qa1;
-	var pr2=sForm.elements["pres2"].value;
-	var qa2=sForm.elements["qa2"].value;
-	localStorage["pr2"]=pr2;
-	localStorage["qa2"]=qa2;
-	var pr3=sForm.elements["pres3"].value;
-	var qa3=sForm.elements["qa3"].value;
-	localStorage["pr3"]=pr3;
-	localStorage["qa3"]=qa3;
+        var sForm=document.getElementById("setform");
+        var pElem=document.getElementsByName('pres');
+        var qElem=document.getElementsByName('qa');
+        var nElem=document.getElementsByName('name');
+        for (var i=0; i<pElem.length; i++) {
+            localStorage["pr"+i]=pElem[i].value;
+            localStorage["qa"+i]=qElem[i].value;
+            localStorage["name"+i]=nElem[i].value;
+        }
+	setupGui();
 	updateDisplay();
 	return false;
     }
@@ -177,17 +187,17 @@
 
     <div id="settings" style="float:right">
 	<form id="setform" onsubmit="return doSettings();">
-	Pre 1: <input type="text" size="12" name="name1" /><br/>
-	<input type="text" size="3" name="pres1" />
-	<input type="text" size="3" name="qa1" />
+	Pre 1: <input type="text" size="12" name="name" /><br/>
+	<input type="text" size="3" name="pres" />
+	<input type="text" size="3" name="qa" />
 	<br/>
-	Pre 2:  <input type="text" size="12" name="name1" /><br/>
-	<input type="text" size="3" name="pres2" />
-	<input type="text" size="3" name="qa2" />
+	Pre 2:  <input type="text" size="12" name="name" /><br/>
+	<input type="text" size="3" name="pres" />
+	<input type="text" size="3" name="qa" />
 	<br/>
-	Pre 3: <input type="text" size="12" name="name3" /><br/>
-	<input type="text" size="3" name="pres3" />
-	<input type="text" size="3" name="qa3" /> <br/>
+	Pre 3: <input type="text" size="12" name="name" /><br/>
+	<input type="text" size="3" name="pres" />
+	<input type="text" size="3" name="qa" /> <br/>
 	<input type="submit" value="Save settings">
 	</form>
     </div>
