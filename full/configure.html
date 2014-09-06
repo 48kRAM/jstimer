@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>JS Timer</title>
+    <link rel="stylesheet" type="text/css" href="timer.css">
+    <script src="Chart.js"></script>
+    <script language="JavaScript">
+
+    function updateSettings() {
+        var sForm=document.getElementById("setform");
+        var pElem=document.getElementsByName('pres');
+        var qElem=document.getElementsByName('qa');
+        var nElem=document.getElementsByName('name');
+        for (var i=0; i<pElem.length; i++) {
+            localStorage["pr"+i]=pElem[i].value;
+            localStorage["qa"+i]=qElem[i].value;
+            localStorage["name"+i]=nElem[i].value;
+        }
+	window.location.href="index.html";
+    }
+    function loadSettings() {
+        var sForm=document.getElementById("setform");
+        var pElem=document.getElementsByName('pres');
+        var qElem=document.getElementsByName('qa');
+        var nElem=document.getElementsByName('name');
+    	for (var i=0; i<pElem.length; i++) {
+	    nElem[i].value=localStorage["name"+i];
+	    pElem[i].value=localStorage["pr"+i];
+	    qElem[i].value=localStorage["qa"+i];
+	}
+    }
+    function cancelSettings() {
+    	if(confirm("Discard changes?")) {
+	    window.location.href="index.html";
+	}
+    }
+    </script>
+</head>
+<body onLoad="loadSettings()">
+
+    <div id="settings">
+	<form id="setform">
+	<div class="preset">
+	    Pre 1: <input type="text" size="12" name="name" /><br/>
+	    <input type="text" size="3" name="pres" /> /
+	    <input type="text" size="3" name="qa" />
+	</div>
+	<div class="preset">
+	    Pre 2:  <input type="text" size="12" name="name" /><br/>
+	    <input type="text" size="3" name="pres" /> /
+	    <input type="text" size="3" name="qa" />
+	</div>
+	<div class="preset">
+	    Pre 3: <input type="text" size="12" name="name" /><br/>
+	    <input type="text" size="3" name="pres" /> /
+	    <input type="text" size="3" name="qa" /> <br/>
+	</div>
+	</form>
+	<button onClick="updateSettings()">Save settings</button>
+	<button onClick="cancelSettings()">Cancel</button>
+    </div>
+
+</body>
+</html>
+

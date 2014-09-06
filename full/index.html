@@ -80,6 +80,7 @@
 	}
     }
     function showGui() {
+	setupGui();
 	document.getElementById('timer').style.color='black';
 	document.getElementById("gui").style.visibility='visible';
 	clearInterval(counter);
@@ -114,7 +115,7 @@
 	    pmin=localStorage["pr"+i];
 	    qmin=localStorage["qa"+i];
 	    name=localStorage["name"+i];
-	    psec=pmin+60;
+	    psec=pmin*60;
 	    qsec=qmin*60;
 	    var bStr="<button onClick='startTimer("+psec+","+
 		qsec+")'>"+name+"<br/>"+pmin+" / "+qmin+"</button>";
@@ -122,19 +123,18 @@
 	    presetpane.innerHTML+=bStr;
 	}
     }
-    function doSettings() {
-        var sForm=document.getElementById("setform");
-        var pElem=document.getElementsByName('pres');
-        var qElem=document.getElementsByName('qa');
-        var nElem=document.getElementsByName('name');
-        for (var i=0; i<pElem.length; i++) {
-            localStorage["pr"+i]=pElem[i].value;
-            localStorage["qa"+i]=qElem[i].value;
-            localStorage["name"+i]=nElem[i].value;
-        }
-	setupGui();
+    function pageStartup() {
+        setupGui();
 	updateDisplay();
-	return false;
+    }
+    function goConfigure() {
+    	if(ticks>0) {
+	    if(confirm("Are you sure you want to configure now?")) {
+		window.location.href="configure.html";
+	    }
+	} else {
+	    window.location.href="configure.html";
+	}
     }
     var timedata = [
 	    {
@@ -153,28 +153,7 @@
 	];
     </script>
 </head>
-<body onLoad="updateDisplay()">
-
-    <div id="settings" style="float:right">
-	<form id="setform" onsubmit="return doSettings();">
-	<div class="preset">
-	    Pre 1: <input type="text" size="12" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" />
-	</div>
-	<div class="preset">
-	    Pre 2:  <input type="text" size="12" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" />
-	</div>
-	<div class="preset">
-	    Pre 3: <input type="text" size="12" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" /> <br/>
-	</div>
-	<input type="submit" value="Save settings">
-	</form>
-    </div>
+<body onLoad="pageStartup()">
 
     <div id="gui">
 	<div id="presets">
@@ -198,6 +177,7 @@
 	    Use Q&amp;A
         </form>
         <button onClick="startTimer(0,0)">Resume countdown</button>
+	<button onClick="goConfigure()">Configure</button>
     </div>
 
     <div id="mode">JS Timer</div>
