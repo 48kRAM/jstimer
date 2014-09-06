@@ -136,6 +136,22 @@
 	    window.location.href="configure.html";
 	}
     }
+    function handleKey(evt) {
+	var theKey=(evt.which) ? evt.which : evt.keyCode;
+	var running=0;
+	if (document.getElementById('gui').style.visibility=='hidden') {
+	    var running=1;
+	}
+        switch(theKey) {
+	    // Space bar - pause, or resume
+	    case 32:
+	    	if(running==1) { showGui(); }
+		else { startTimer(0,0); }
+	    	break;
+	}
+	alert("Key code "+theKey);
+    }
+
     var timedata = [
 	    {
 		value: 00,
@@ -153,7 +169,7 @@
 	];
     </script>
 </head>
-<body onLoad="pageStartup()">
+<body onLoad="pageStartup()" onkeypress="handleKey(event)">
 
     <div id="gui">
 	<div id="presets">
