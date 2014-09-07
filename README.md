@@ -16,11 +16,11 @@ There is a live demo version available at http://www.cv.nrao.edu/~jmalone/tools/
 Usage
 -----
 
-jstimer lite is a single-file HTML/javascript timer application. To use it, open it in the web browser of your choice (Firefox and Safari tested). For best results, set your browser in fullscreen mode and hide any toolbars.
+jstimer can be configured with a number of timer "presets". To do this, click the "Configure" button at the bottom of the green control panel on the left-hand side of the screen. On the configuration screen, you can edit the names and times (in minutes) of the presets. Only 3 presets are available at this time. Click "Save settings" to save the new presets or "Cancel" to discard your changes.
 
-jstimer comes configured with a number of timer "preset" useful to me, but you'll probably want to configure it for your desired timings. To do this, simply edit the timer.html file and add in buttons for the timings you need. Near the bottom of the file, you'll see a number of button elements defined. Each one includes an onClick event which starts the timer with a specific countdown time. You can edit any of the existing buttons to set the timings you need.
+The "full" jstimer uses Chart.js to display a clock-like widget behind the timer text. This widget shows the amount of time remaining in both the "Presentation" and "Q&A" parts of the session, whereas the bar graph in the "lite" version only shows total time. The "full" version is the most actively developed and is the one used in the OSX "app" release". Most people should use this version.
 
-The "full" jstimer uses Chart.js to display a clock-like widget behind the timer text. This widget shows the amount of time remaining in the session just like the bar graph does in the "lite" version. Use this version if you don't mind having to deal with more than one file in the application.
+jstimer "lite" is a single-file HTML/javascript timer application. To use it, open it in the web browser of your choice (Firefox and Safari tested). For best results, set your browser in fullscreen mode and hide any toolbars. Use this version only if you really need a single-file timer. To change presets in the "lite" version you have to edit the timer.html file and change or add buttons for the timings you need.
 
 
 Presentation vs. Q&A
