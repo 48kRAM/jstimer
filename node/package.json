@@ -1,0 +1,12 @@
+{
+	"main": "index.html",
+	"name": "JS Timer",
+	"description": "Conference countdown timer",
+	"version": "0.9.5",
+	"window": {
+		"title": "JS Timer",
+		"toolbar": false,
+		"min_width": 800,
+		"min_height": 600
+	}
+}
