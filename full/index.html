@@ -124,6 +124,18 @@
 	}
     }
     function pageStartup() {
+	if(typeof(localStorage["pr0"])=="undefined") {
+	    // Define some initial defaults if local storage not setup yet
+	    localStorage["name0"]="Keynote";
+	    localStorage["pr0"]=50;
+	    localStorage["qa0"]=10;
+	    localStorage["name1"]="Invited talk";
+	    localStorage["pr1"]=30;
+	    localStorage["qa1"]=10;
+	    localStorage["name2"]="Contributed";
+	    localStorage["pr2"]=15;
+	    localStorage["qa2"]=5;
+	}
         setupGui();
 	updateDisplay();
     }
@@ -185,9 +197,6 @@
 
     <div id="gui">
 	<div id="presets">
-        <button onClick="startTimer(15*60,5*60)">Twenty minute<br/>15 / 5</button>
-        <button onClick="startTimer(20*60,10*60)">30 minute<br/>20 / 10</button>
-        <button onClick="startTimer(20*60, 0)">No Q&amp;A<br/>20 mins</button>
 	</div>
         <button onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
         <button onClick="showClock()">Real-time<br/>clock</button>
