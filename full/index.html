@@ -111,15 +111,13 @@
     	var presetpane=document.getElementById("presets");
 	presetpane.innerHTML='';
 	for (var i=0; i<3; i++) {
-        //<button onClick="startTimer(15*60,5*60)">Twenty minute<br/>15 / 5</button>
 	    pmin=localStorage["pr"+i];
 	    qmin=localStorage["qa"+i];
 	    name=localStorage["name"+i];
 	    psec=pmin*60;
 	    qsec=qmin*60;
-	    var bStr="<button onClick='startTimer("+psec+","+
+	    var bStr="<button id='preset"+i+"' onClick='startTimer("+psec+","+
 		qsec+")'>"+name+"<br/>"+pmin+" / "+qmin+"</button>";
-	    //alert(bStr);
 	    presetpane.innerHTML+=bStr;
 	}
     }
@@ -150,24 +148,29 @@
     }
     function handleKey(evt) {
 	var theKey=(evt.which) ? evt.which : evt.keyCode;
+	evt.preventDefault();
 	var running=0;
 	if (document.getElementById('gui').style.visibility=='hidden') {
 	    var running=1;
 	}
+	//alert(theKey);
         switch(theKey) {
 	    // Space bar - pause, or resume
 	    case 32:
 	    	if(running==1) { showGui(); }
 		else { startTimer(0,0); }
 	    	break;
-	    // 1 key , above Q - Activate presets
-	    case 49:
+	    // F1 key , above Q - Activate presets
+	    case 112:
+		document.getElementById('preset0').click();
 	    	break;
-	    case 50:
+	    case 113:
+		document.getElementById('preset1').click();
 	    	break;
-	    case 51:
+	    case 114:
+		document.getElementById('preset2').click();
 	    	break;
-	    case 52:
+	    case 115:
 	    	break;
 	    // C key - display clock
 	    case 99:
