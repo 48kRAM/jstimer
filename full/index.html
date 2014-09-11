@@ -136,6 +136,21 @@
 	    localStorage["pr2"]=15;
 	    localStorage["qa2"]=5;
 	}
+	if(typeof(macgap)!="undefined") {
+	    // Add some handlers if using MacGap binary
+	    macgap.menu.getItem("Help").submenu().getItem("JS Timer Help").setCallback(
+	    	function() { goHelp(); } );
+	    macgap.menu.getItem("Run").submenu().getItem('Preset 1').setCallback(
+		function() { document.getElementById('preset0').click(); } );
+	    macgap.menu.getItem("Run").submenu().getItem('Preset 2').setCallback(
+		function() { document.getElementById('preset1').click(); } );
+	    macgap.menu.getItem("Run").submenu().getItem('Preset 3').setCallback(
+		function() { document.getElementById('preset2').click(); } );
+	    macgap.menu.getItem("Run").submenu().getItem('Demo').setCallback(
+		function() { document.getElementById('demo').click(); } );
+	    macgap.menu.getItem("Run").submenu().getItem('Clock').setCallback(
+		function() { showClock(); } );
+	} // End macgap setup
         setupGui();
 	updateDisplay();
     }
@@ -160,7 +175,9 @@
 
     function handleKey(evt) {
 	var theKey=(evt.which) ? evt.which : evt.keyCode;
-	evt.preventDefault();
+	if(theKey>111 && theKey< 116) {
+	    evt.preventDefault();
+	}
 	var running=0;
 	if (document.getElementById('gui').style.visibility=='hidden') {
 	    var running=1;
