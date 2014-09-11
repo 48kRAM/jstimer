@@ -5,7 +5,7 @@ Download the latest release <a href="https://github.com/48kRAM/jstimer/releases/
 
 A simple HTML/JS timer app for use in meetings and conferences.
 
-My employer puts on an annual science symposium with a large number of attendees. We needed an easy-to-use session countdown timer with a simple display that speakers could understand that also worked off-line so it wasn't dependant on poor conference hotel wifi.
+My employer puts on an annual science symposium with a large number of attendees. We needed an easy-to-use session countdown timer with a simple display that speakers could understand that also worked off-line so it wasn't dependent on poor conference hotel wifi.
 
 jstimer displays a large countdown clock along with a bar graph indicating the usage of total talk time (presentation and q&a) underneath it. Once the timer expires, jstimer flashes a large red inicator that the time is up.
 
