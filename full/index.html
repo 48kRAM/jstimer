@@ -146,6 +146,16 @@
 	    window.location.href="configure.html";
 	}
     }
+    function goHelp() {
+    	if(ticks>0) {
+	    if(confirm("This will reset the current timer. Are you sure?")) {
+		window.location.href="help.html";
+	    }
+	} else {
+	    window.location.href="help.html";
+	}
+    }
+
     function handleKey(evt) {
 	var theKey=(evt.which) ? evt.which : evt.keyCode;
 	evt.preventDefault();
@@ -160,7 +170,7 @@
 	    	if(running==1) { showGui(); }
 		else { startTimer(0,0); }
 	    	break;
-	    // F1 key , above Q - Activate presets
+	    // F1-F4 keys, - Activate presets
 	    case 112:
 		document.getElementById('preset0').click();
 	    	break;
@@ -171,6 +181,7 @@
 		document.getElementById('preset2').click();
 	    	break;
 	    case 115:
+		document.getElementById('preset3').click();
 	    	break;
 	    // C key - display clock
 	    case 99:
@@ -217,7 +228,9 @@
 	    Use Q&amp;A
         </form>
         <button onClick="startTimer(0,0)">Resume countdown</button>
+	<hr/>
 	<button onClick="goConfigure()">Configure</button>
+	<button onClick="goHelp()">Help</button>
     </div>
 
     <div id="mode">JS Timer</div>

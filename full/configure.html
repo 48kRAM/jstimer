@@ -42,23 +42,41 @@
     <div id="settings">
 	<form id="setform">
 	<div class="preset">
-	    Pre 1: <input type="text" size="12" name="name" /><br/>
+	    Preset 1: <input type="text" size="12" name="name" /><br/>
 	    <input type="text" size="3" name="pres" /> /
 	    <input type="text" size="3" name="qa" />
 	</div>
 	<div class="preset">
-	    Pre 2:  <input type="text" size="12" name="name" /><br/>
+	    Preset 2:  <input type="text" size="12" name="name" /><br/>
 	    <input type="text" size="3" name="pres" /> /
 	    <input type="text" size="3" name="qa" />
 	</div>
 	<div class="preset">
-	    Pre 3: <input type="text" size="12" name="name" /><br/>
+	    Preset 3: <input type="text" size="12" name="name" /><br/>
 	    <input type="text" size="3" name="pres" /> /
 	    <input type="text" size="3" name="qa" /> <br/>
 	</div>
 	</form>
 	<button onClick="updateSettings()">Save settings</button>
 	<button onClick="cancelSettings()">Cancel</button>
+    </div>
+
+    <div class="helptext">
+    <h2>Configure JS Timer</h2>
+    <p>
+    Configure the timer preset buttons using the fields on the right.
+    For each present, enter a Preset Name in the top field, and the 
+    time slots in the bottom two fields. The first time field (left)
+    is the number of minutes for the talk / presentation. The second
+    field (right) is the number of minutes for the Q&amp;A period.
+    </p>
+    <p>If you don't want to use the Q&amp;A period, simply leave the right-hand
+    time field blank.
+    </p>
+    <p>Click "Save settings" to save your presets or "Cancel" to discard
+    changes and return to the original presets.</p>
+
+
     </div>
 
 </body>

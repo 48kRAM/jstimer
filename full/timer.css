@@ -6,12 +6,12 @@ input[type=button], button {
 	}
 #mode { text-align: center; width: 99%; height: 100px; font-size: 5em; }
 #gui { position: absolute; width: 115px; left: 20px;
-	top: 125px; z-index: 3; background-color: #11cc66;
+	top: 125px; z-index: 3; background-color: #44cc88;
 	padding-left: 12px; padding-top: 5px; padding-bottom: 5px;
 	border-radius: 5px;
 	}
 #settings { position: absolute; width: 115px; right: 25px;
-	top: 125px; z-index: 3;
+	top: 100px; z-index: 3; float: right;
 	}
 #graphholder { width: 99%; height: 500px; text-align: center; }
 #piegraph { z-index: -1; width: 500px; position: relative; }
@@ -25,4 +25,12 @@ input[type=button], button {
 .preset {
 	border: 1px solid #ccc;
 	margin-bottom: 5px; padding: 3px;
+}
+.helptext {
+	margin-right: 160px;
+	margin-left: 100px;
+	margin-top: 100px;
+	background-color: #44cc88;
+	border-radius: 8px;
+	padding: 20px;
 }
