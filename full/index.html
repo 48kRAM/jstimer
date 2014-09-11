@@ -33,6 +33,7 @@
 	document.getElementById('gui').style.visibility='hidden';
 	document.getElementById('timer').style.color='#000';
 	document.getElementById("timer").style.fontSize="17em";
+	clearInterval(counter);
 	counter=setInterval(timerFunc, 1000);
     }
     function updateDisplay() {
@@ -96,6 +97,7 @@
 	document.getElementById('graphholder').style.visibility='hidden';
 	document.getElementById('timer').style.color='#000';
 	document.getElementById("timer").style.fontSize="17em";
+	clearInterval(counter);
 	clockFunc();
 	counter=setInterval(clockFunc, 1000);
     }
@@ -181,7 +183,7 @@
 		document.getElementById('preset2').click();
 	    	break;
 	    case 115:
-		document.getElementById('preset3').click();
+		document.getElementById('demo').click();
 	    	break;
 	    // C key - display clock
 	    case 99:
@@ -212,7 +214,7 @@
     <div id="gui">
 	<div id="presets">
 	</div>
-        <button onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
+        <button id="demo" onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
         <button onClick="showClock()">Real-time<br/>clock</button>
         <br/><br/>
         <hr/>
