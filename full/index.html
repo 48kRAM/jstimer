@@ -69,7 +69,7 @@
 	    } else {
 		updateDisplay();
 		clearInterval(counter);
-		var elem=document.getElementById("timer")
+		var elem=document.getElementById("timer");
 		elem.style.fontSize="10em";
 		elem.innerHTML="Your time has expired!";
 		document.getElementById("mode").innerHTML="";
@@ -151,6 +151,42 @@
 	    macgap.menu.getItem("Run").submenu().getItem('Clock').setCallback(
 		function() { showClock(); } );
 	} // End macgap setup
+	var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
+	if(isNode) {
+	    var gui = require('nw.gui');
+	    var win = gui.Window.get();
+	    var menubar = new gui.Menu({type: 'menubar'});
+	    var mrun = new gui.Menu();
+	    menubar.append(new gui.MenuItem( {label: 'Run...', submenu: mrun}));
+
+	    mrun.append(new gui.MenuItem({
+		label: 'Preset 1',
+	    	click: function() { document.getElementById('preset0').click(); },
+		key: 'F1'
+	    }));
+	    mrun.append(new gui.MenuItem({
+		label: 'Preset 2',
+	    	click: function() { document.getElementById('preset1').click(); },
+		key: 'F2'
+	    }));
+	    mrun.append(new gui.MenuItem({
+		label: 'Preset 3',
+	    	click: function() { document.getElementById('preset2').click(); },
+		key: 'F3'
+	    }));
+	    mrun.append(new gui.MenuItem({
+		label: 'Demo',
+	    	click: function() { document.getElementById('demo').click(); },
+		key: 'F4'
+	    }));
+	    mrun.append(new gui.MenuItem({
+		label: 'Clock',
+	    	click: function() { showClock(); },
+		key: 'c'
+	    }));
+
+	    win.menu = menubar;
+	}
         setupGui();
 	updateDisplay();
     }
@@ -180,7 +216,7 @@
 	}
 	var running=0;
 	if (document.getElementById('gui').style.visibility=='hidden') {
-	    var running=1;
+	    running=1;
 	}
 	//alert(theKey);
         switch(theKey) {
