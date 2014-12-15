@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8" />
     <title>JS Timer</title>
@@ -252,7 +252,7 @@
 		label: "Time"
 	    }, {
 	    	value: 40,
-		color: "#22cc22",
+		color: "#3377ff",
 		label: "Presentation"
 	    }, {
 	    	value: 00,
@@ -263,6 +263,7 @@
     </script>
 </head>
 <body onLoad="pageStartup()" onkeypress="handleKey(event)">
+<div id="screen">
 
     <div id="gui">
 	<div id="presets">
@@ -296,7 +297,7 @@
 	<span id="timer" > </span>
     </div>
     
-    <script janguage="Javascript">
+    <script language="Javascript">
     var ctx = document.getElementById("piegraph").getContext("2d");
     Chart.defaults.global.animation=false;
     var pieChart = new Chart(ctx).Pie(timedata, {
@@ -304,6 +305,7 @@
 	});
     </script>
 
+</div> <!-- screen -->
 </body>
 </html>
 
