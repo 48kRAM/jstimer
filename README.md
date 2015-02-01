@@ -3,13 +3,13 @@ jstimer
 
 Download the latest release <a href="https://github.com/48kRAM/jstimer/releases/latest">here.</a>
 
-A simple HTML/JS timer app for use in meetings and conferences.
+A simple HTML5/JS countdown timer app for use in meetings and conferences.
 
 My employer puts on an annual science symposium with a large number of attendees. We needed an easy-to-use session countdown timer with a simple display that speakers could understand that also worked off-line so it wasn't dependent on poor conference hotel wifi.
 
-jstimer displays a large countdown clock along with a bar graph indicating the usage of total talk time (presentation and q&a) underneath it. Once the timer expires, jstimer flashes a large red inicator that the time is up.
+jstimer displays a large countdown timer along with a clock widget indicating the speaker's progress through the talk and Q&A time. Once the timer expires, jstimer flashes a large red indicator that the time is up.
 
-jstimer has an auto-hiding GUI for selecting timer presets or entering a time manually. Once timing begins, the GUI is hidden so that an attractive countdown is shown to the speaker. Clicking on the counting time pauses the countdown and displays the GUI again. You can resume the countdown by clicking the "Resume Countdown" button and the GUI will once again disapper and the timer will contiue counting from the point at which it was paused.
+jstimer has an auto-hiding GUI for selecting timer presets or entering a time manually. Once timing begins, the GUI is hidden so that an attractive countdown is shown to the speaker. Clicking on the counting time pauses the countdown and displays the GUI again. You can resume the countdown by clicking the "Resume Countdown" button and the GUI will once again disapper and the timer will contiue counting from the point at which it was paused. As of version 1.0, presets can be configured easily (no more editing the file) and will be saved for future use (preset are saved in HTML5 local storage).
 
 There is a live demo version available on [my homepage](http://www.cv.nrao.edu/~jmalone/tools/jstimer/)
 
