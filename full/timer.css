@@ -24,7 +24,6 @@ input[type=button], button {
 	}
 #settings { position: absolute; width: 115px; right: 25px;
 	top: 100px; z-index: 3; float: right;
-	color: #eee;
 	}
 #graphholder { 
 	width: 99%; height: 500px; text-align: center;
@@ -41,13 +40,22 @@ input[type=button], button {
 	vertical-align: middle; display: table-cell;
 	}
 .preset {
+	color: #eee;
 	border: 1px solid #ccc;
-	margin-bottom: 5px; padding: 3px;
+	height: 70px;
+	padding: 4px;
+	border-radius: 5px;
+}
+#configtable {
+	margin-top: 100px;
+	margin-left: 100px;
+	margin-right: 100px;
+}
+td#configtable {
+	vertical-align: top;
 }
 .helptext {
-	margin-right: 160px;
-	margin-left: 100px;
-	margin-top: 100px;
+	margin-right: 50px;
 	background-color: #44cc88;
 	border-radius: 8px;
 	padding: 20px;
