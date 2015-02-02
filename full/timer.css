@@ -24,6 +24,7 @@ input[type=button], button {
 	}
 #settings { position: absolute; width: 115px; right: 25px;
 	top: 100px; z-index: 3; float: right;
+	color: #eee;
 	}
 #graphholder { 
 	width: 99%; height: 500px; text-align: center;
