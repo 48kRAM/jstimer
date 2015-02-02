@@ -16,14 +16,14 @@
     function startTimer(talkSecs, qaSecs) {
 	if (talkSecs>0) {
 	    elapsed=0;
-	    document.getElementById("mode").innerHTML="Presentation";
+	    document.getElementById("mode").innerHTML=localStorage["presVocab"];
 	    ticks=talkSecs;
 	    talkPart=1;
 	    qaTime=qaSecs;
 	} else {
 	    if (qaSecs>0) {
 		elapsed=0;
-		document.getElementById("mode").innerHTML="Question / Answer";
+		document.getElementById("mode").innerHTML=localStorage["qaVocab"];
 		talkPart=2;
 		ticks=qaSecs;
 	    }
@@ -135,6 +135,12 @@
 	    localStorage["name2"]="Contributed";
 	    localStorage["pr2"]=15;
 	    localStorage["qa2"]=5;
+	}
+	if(typeof(localStorage["presVocab"]=="undefined")) {
+	    localStorage["presVocab"]="Presentation";
+	}
+	if(typeof(localStorage["qaVocab"]=="undefined")) {
+	    localStorage["qaVocab"]="Question / Answer";
 	}
 	if(typeof(macgap)!="undefined") {
 	    // Add some handlers if using MacGap binary
