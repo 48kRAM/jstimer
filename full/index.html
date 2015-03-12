@@ -111,6 +111,7 @@
     }
     function setupGui() {
     	var presetpane=document.getElementById("presets");
+
 	presetpane.innerHTML='';
 	for (var i=0; i<3; i++) {
 	    pmin=localStorage["pr"+i];
@@ -305,6 +306,12 @@
     
     <script language="Javascript">
     var ctx = document.getElementById("piegraph").getContext("2d");
+    // Set canvas size based on viewport dimensions
+    var sHeight=window.innerHeight;
+    var sWidth=window.innerWidth;
+    var pieGraph=document.getElementById('piegraph');
+    pieGraph.width=sWidth-(115*2)-20;
+    pieGraph.height=sHeight-100-20;
     Chart.defaults.global.animation=false;
     var pieChart = new Chart(ctx).Pie(timedata, {
 	segmentShowStroke : false
