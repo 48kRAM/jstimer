@@ -215,7 +215,6 @@
 	    window.location.href="help.html";
 	}
     }
-
     function handleKey(evt) {
 	var theKey=(evt.which) ? evt.which : evt.keyCode;
 	if(theKey>111 && theKey< 116) {
@@ -250,6 +249,22 @@
 	        showClock();
 	    	break;
 	}
+    }
+    function handleResize() {
+    	var graphDiv=document.getElementById('graphholder');
+	var pieGraph=document.getElementById('piegraph');
+	var sHeight=window.innerHeight;
+	var sWidth=window.innerWidth;
+	var gH=sHeight-120;	// Leave room for mode and margins
+	var gW=sWidth-(115*2)-20;
+	ctx.canvas.width=gW;
+	ctx.canvas.height=gH;
+	pieGraph.style.width=gW.toString()+'px';
+	pieGraph.style.height=gH.toString()+'px';
+	pieChart.destroy();
+	pieChart = new Chart(ctx).Pie(timedata, {
+		segmentShowStroke: false
+	});
     }
 
     var timedata = [
@@ -298,7 +313,7 @@
 
     <div id="mode">JS Timer</div>
     <div id="graphholder">
-	<canvas id="piegraph" width="500" height="500"></canvas>
+	<canvas id="piegraph" ></canvas>
     </div>
     <div id="textdiv" onClick="showGui()"> 
 	<span id="timer" > </span>
@@ -307,15 +322,13 @@
     <script language="Javascript">
     var ctx = document.getElementById("piegraph").getContext("2d");
     // Set canvas size based on viewport dimensions
-    var sHeight=window.innerHeight;
-    var sWidth=window.innerWidth;
-    var pieGraph=document.getElementById('piegraph');
-    pieGraph.width=sWidth-(115*2)-20;
-    pieGraph.height=sHeight-100-20;
     Chart.defaults.global.animation=false;
     var pieChart = new Chart(ctx).Pie(timedata, {
 	segmentShowStroke : false
+
 	});
+    handleResize();
+    window.addEventListener('resize', handleResize);
     </script>
 
 </div> <!-- screen -->
