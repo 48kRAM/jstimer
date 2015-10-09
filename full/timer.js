@@ -248,6 +248,22 @@ function handleKey(evt) {
 	    break;
     }
 }
+function handleResize() {
+    var graphDiv=document.getElementById('graphholder');
+    var pieGraph=document.getElementById('piegraph');
+    var sHeight=window.innerHeight;
+    var sWidth=window.innerWidth;
+    var gH=sHeight-120;     // Leave room for mode and margins
+    var gW=sWidth-(115*2)-20;
+    ctx.canvas.width=gW;
+    ctx.canvas.height=gH;
+    pieGraph.style.width=gW.toString()+'px';
+    pieGraph.style.height=gH.toString()+'px';
+    pieChart.destroy();
+    pieChart = new Chart(ctx).Pie(timedata, {
+	    segmentShowStroke: false
+    });
+}
 
 var timedata = [
     {
