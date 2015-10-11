@@ -7,35 +7,36 @@ function userTimer(F) {
 function startTimer(talkSecs, qaSecs) {
     if (talkSecs>0) {
 	elapsed=0;
-	document.getElementById("mode").innerHTML=localStorage["presVocab"];
+	$("#mode").html(localStorage["presVocab"]);
 	ticks=talkSecs;
 	talkPart=1;
 	qaTime=qaSecs;
     } else {
 	if (qaSecs>0) {
 	    elapsed=0;
-	    document.getElementById("mode").innerHTML=localStorage["qaVocab"];
+	    $("#mode").html(localStorage["qaVocab"]);
 	    talkPart=2;
 	    ticks=qaSecs;
 	}
     }
     updateDisplay();
-    document.getElementById('graphholder').style.visibility='visible';
-    document.getElementById('gui').style.visibility='hidden';
-    document.getElementById('timer').style.color='#000';
-    document.getElementById("timer").style.fontSize="17em";
+    $("#graphholder").show("slow");
+    $("#gui").hide("fast");
+    var t=$("#timer")
+    t.removeClass('timerred');
+    t.css('fontSize', '');
     clearInterval(counter);
     counter=setInterval(timerFunc, 1000);
 }
 function updateDisplay() {
-    var clock=document.getElementById("timer");
+    var clock=$("#timer");
     var x=document.getElementById('autoQA');
     mins=Math.floor(ticks/60);
     secs=ticks-(mins*60);
     if(secs.toString().length<2) {
 	secs='0'+secs;
     }
-    clock.innerHTML=mins + ":" +secs;
+    clock.html(mins + ":" +secs);
     if(elapsed>0 || ticks>0) {
 	pieChart.segments[0].value=elapsed;
 	if (talkPart==2) {
@@ -58,14 +59,15 @@ function timerFunc() {
 	    talkPart=2;
 	    ticks=qaTime;
 	    updateDisplay();
-	    document.getElementById("mode").innerHTML="Question / Answer";
+	    $("#mode").html("Question / Answer");
 	} else {
 	    updateDisplay();
 	    clearInterval(counter);
-	    var elem=document.getElementById("timer");
-	    elem.style.fontSize="10em";
-	    elem.innerHTML="Your time has expired!";
-	    document.getElementById("mode").innerHTML="";
+	    var elem=$("#timer");
+	    elem.css('fontSize', "10em");
+	    elem.html("Your time has expired!");
+	    $("#mode").html("");
+	    $("#graphholder").hide();
 	    timeIsUp();
 	    counter=setInterval(timeIsUp, 700);
 	}
@@ -75,18 +77,12 @@ function timerFunc() {
 }
 function showGui() {
     setupGui();
-    document.getElementById('timer').style.color='black';
-    document.getElementById("gui").style.visibility='visible';
+    $("#timer").removeClass('timerred');
+    $("#gui").show("fast");
     clearInterval(counter);
 }
 function timeIsUp() {
-    var elem=document.getElementById("timer");
-    if (elem.style.color === "black") {
-	elem.style.color = "red";
-    }
-    else {
-	elem.style.color = "black";
-    }
+    $("#timer").toggleClass('timerred');
 }
 function clockFunc() {
     var now=new Date();
@@ -98,10 +94,10 @@ function clockFunc() {
 }
 function showClock() {
     document.getElementById("mode").innerHTML="Time of Day";
-    document.getElementById('gui').style.visibility='hidden';
-    document.getElementById('graphholder').style.visibility='hidden';
-    document.getElementById('timer').style.color='#000';
-    document.getElementById("timer").style.fontSize="17em";
+    $("#gui").hide("fast");
+    $("#graphholder").hide();
+    $("#timer").removeClass('timerred');
+    $("#timer").css('fontSize', '');
     clearInterval(counter);
     clockFunc();
     counter=setInterval(clockFunc, 1000);
