@@ -1,5 +1,87 @@
 /*jslint browser: true */
 var ticks=0, mins=0, secs=0, counter, timeStr, talkPart=0, qaTime, talkLen, elapsed=0;
+var jstConfig = {
+};
+
+function initConfig() {
+    // Define some initial defaults if local storage not setup yet
+    console.log("Applying default presets");
+    jstConfig.presets=[
+	{name:'Keynote', pres:50, qa:10},
+	{name:'Invited talk', pres:30, qa:10},
+	{name:'Contributed Talk', pres:15, qa:5}
+    ];
+    jstConfig.presVocab='Presentation';
+    jstConfig.qaVocab='Question / Answer';
+    jstConfig.cfgVer='1.9';
+    localStorage['jstConfig']=JSON.stringify(jstConfig);
+}
+function pageStartup() {
+    console.log("Page startup...");
+    try {
+	jstConfig=JSON.parse(localStorage['jstConfig']);
+    } catch(e) {
+	initConfig();
+    }
+    if(typeof(jstConfig.cfgVer)==="undefined" ) {
+        initConfig();
+    }
+
+    if(typeof(macgap)!="undefined") {
+	// Add some handlers if using MacGap binary
+	macgap.menu.getItem("Help").submenu().getItem("JS Timer Help").setCallback(
+	    function() { goHelp(); } );
+	macgap.menu.getItem("Run").submenu().getItem('Preset 1').setCallback(
+	    function() { document.getElementById('preset0').click(); } );
+	macgap.menu.getItem("Run").submenu().getItem('Preset 2').setCallback(
+	    function() { document.getElementById('preset1').click(); } );
+	macgap.menu.getItem("Run").submenu().getItem('Preset 3').setCallback(
+	    function() { document.getElementById('preset2').click(); } );
+	macgap.menu.getItem("Run").submenu().getItem('Demo').setCallback(
+	    function() { document.getElementById('demo').click(); } );
+	macgap.menu.getItem("Run").submenu().getItem('Clock').setCallback(
+	    function() { showClock(); } );
+    } // End macgap setup
+    var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
+    if(isNode) {
+	// GUI handler options for running in node-webkit
+	var gui = require('nw.gui');
+	var win = gui.Window.get();
+	var menubar = new gui.Menu({type: 'menubar'});
+	var mrun = new gui.Menu();
+	menubar.append(new gui.MenuItem( {label: 'Run...', submenu: mrun}));
+
+	mrun.append(new gui.MenuItem({
+	    label: 'Preset 1',
+	    click: function() { document.getElementById('preset0').click(); },
+	    key: 'F1'
+	}));
+	mrun.append(new gui.MenuItem({
+	    label: 'Preset 2',
+	    click: function() { document.getElementById('preset1').click(); },
+	    key: 'F2'
+	}));
+	mrun.append(new gui.MenuItem({
+	    label: 'Preset 3',
+	    click: function() { document.getElementById('preset2').click(); },
+	    key: 'F3'
+	}));
+	mrun.append(new gui.MenuItem({
+	    label: 'Demo',
+	    click: function() { document.getElementById('demo').click(); },
+	    key: 'F4'
+	}));
+	mrun.append(new gui.MenuItem({
+	    label: 'Clock',
+	    click: function() { showClock(); },
+	    key: 'c'
+	}));
+
+	win.menu = menubar;
+    } // End node setup
+    setupGui();
+    updateDisplay();
+}
 
 function userTimer(F) {
     startTimer(F.userTalk.value*60, F.userQA.value*60);
@@ -7,14 +89,14 @@ function userTimer(F) {
 function startTimer(talkSecs, qaSecs) {
     if (talkSecs>0) {
 	elapsed=0;
-	$("#mode").html(localStorage["presVocab"]);
+	$("#mode").html(jstConfig["presVocab"]);
 	ticks=talkSecs;
 	talkPart=1;
 	qaTime=qaSecs;
     } else {
 	if (qaSecs>0) {
 	    elapsed=0;
-	    $("#mode").html(localStorage["qaVocab"]);
+	    $("#mode").html(jstConfig["qaVocab"]);
 	    talkPart=2;
 	    ticks=qaSecs;
 	}
@@ -90,105 +172,31 @@ function clockFunc() {
     var minute=now.getMinutes();
     if (hour > 12) { hour-=12; }
     if (minute < 10) { minute='0'+minute; }
-    document.getElementById("timer").innerHTML=hour+":"+minute;
+    $("#timer").html(hour+":"+minute);
 }
 function showClock() {
-    document.getElementById("mode").innerHTML="Time of Day";
+    $("#mode").html("Time of Day");
     $("#gui").hide("fast");
     $("#graphholder").hide();
-    $("#timer").removeClass('timerred');
-    $("#timer").css('fontSize', '');
+    var t=$("#timer")
+    t.removeClass('timerred');
+    t.css('fontSize', '');
     clearInterval(counter);
     clockFunc();
     counter=setInterval(clockFunc, 1000);
 }
 function setupGui() {
-    var presetpane=document.getElementById("presets"), bStr, i;
-    presetpane.innerHTML='';
-    for (i=0; i<3; i++) {
-	pmin=localStorage["pr"+i];
-	qmin=localStorage["qa"+i];
-	name=localStorage["name"+i];
-	psec=pmin*60;
-	qsec=qmin*60;
+    var bStr, i;
+    var presetpane=$("#presets");
+    presetpane.html('');
+    for (i=0, len=jstConfig.presets.length; i<len; i++) {
+        var p=jstConfig.presets[i];
+	psec=p.pres*60;
+	qsec=p.qa*60;
 	bStr="<button id='preset"+i+"' onClick='startTimer("+psec+","+
-	    qsec+")'>"+name+"<br/>"+pmin+" / "+qmin+"</button>";
-	presetpane.innerHTML+=bStr;
+	    qsec+")'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
+	presetpane.append(bStr);
     }
-}
-function pageStartup() {
-    if(typeof(localStorage["pr0"])==="undefined") {
-	// Define some initial defaults if local storage not setup yet
-	localStorage["name0"]="Keynote";
-	localStorage["pr0"]=50;
-	localStorage["qa0"]=10;
-	localStorage["name1"]="Invited talk";
-	localStorage["pr1"]=30;
-	localStorage["qa1"]=10;
-	localStorage["name2"]="Contributed";
-	localStorage["pr2"]=15;
-	localStorage["qa2"]=5;
-    }
-    if(typeof(localStorage["presVocab"])==="undefined") {
-	localStorage["presVocab"]="Presentation";
-    }
-    if(typeof(localStorage["qaVocab"])==="undefined") {
-	localStorage["qaVocab"]="Question / Answer";
-    }
-    if(typeof(macgap)!="undefined") {
-	// Add some handlers if using MacGap binary
-	macgap.menu.getItem("Help").submenu().getItem("JS Timer Help").setCallback(
-	    function() { goHelp(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 1').setCallback(
-	    function() { document.getElementById('preset0').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 2').setCallback(
-	    function() { document.getElementById('preset1').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 3').setCallback(
-	    function() { document.getElementById('preset2').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Demo').setCallback(
-	    function() { document.getElementById('demo').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Clock').setCallback(
-	    function() { showClock(); } );
-    } // End macgap setup
-    var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
-    if(isNode) {
-	// GUI handler options for running in node-webkit
-	var gui = require('nw.gui');
-	var win = gui.Window.get();
-	var menubar = new gui.Menu({type: 'menubar'});
-	var mrun = new gui.Menu();
-	menubar.append(new gui.MenuItem( {label: 'Run...', submenu: mrun}));
-
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 1',
-	    click: function() { document.getElementById('preset0').click(); },
-	    key: 'F1'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 2',
-	    click: function() { document.getElementById('preset1').click(); },
-	    key: 'F2'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 3',
-	    click: function() { document.getElementById('preset2').click(); },
-	    key: 'F3'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Demo',
-	    click: function() { document.getElementById('demo').click(); },
-	    key: 'F4'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Clock',
-	    click: function() { showClock(); },
-	    key: 'c'
-	}));
-
-	win.menu = menubar;
-    } // End node setup
-    setupGui();
-    updateDisplay();
 }
 function goConfigure() {
     if(ticks>0) {
