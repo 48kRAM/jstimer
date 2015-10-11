@@ -79,6 +79,8 @@ function pageStartup() {
 
 	win.menu = menubar;
     } // End node setup
+    // Load the sound clip
+    $("#timeupsnd").trigger('load');
     setupGui();
     updateDisplay();
 }
@@ -150,6 +152,8 @@ function timerFunc() {
 	    elem.html("Your time has expired!");
 	    $("#mode").html("");
 	    $("#graphholder").hide();
+	    $("#timeupsnd").trigger('play');
+	    $("#textdiv").effect("bounce", {times:3}, 400);
 	    timeIsUp();
 	    counter=setInterval(timeIsUp, 700);
 	}
