@@ -61,9 +61,12 @@ span#timer {
 .preset {
 	color: #eee;
 	border: 1px solid #ccc;
-	height: 70px;
-	padding: 4px;
+	padding: 6px;
+	margin: 2px;
 	border-radius: 5px;
+}
+#presets li{
+	padding: 6px;
 }
 #configtable {
 	margin-top: 100px;

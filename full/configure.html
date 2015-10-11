@@ -5,38 +5,45 @@
     <title>JS Timer</title>
     <link rel="stylesheet" type="text/css" href="timer.css">
     <script src="Chart.js"></script>
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+    <script src="timer.js"></script>
     <script language="JavaScript">
+
 
     function updateSettings() {
         var sForm=document.getElementById("setform");
-        var pElem=document.getElementsByName('pres');
-        var qElem=document.getElementsByName('qa');
-        var nElem=document.getElementsByName('name');
-	var presVocElem=document.getElementsByName('presVoc');
-	var qaVocElem=document.getElementsByName('qaVoc');
-	localStorage["presVocab"]=presVocElem[0].value;
-	localStorage["qaVocab"]=qaVocElem[0].value;
-        for (var i=0; i<pElem.length; i++) {
-            localStorage["pr"+i]=pElem[i].value;
-            localStorage["qa"+i]=qElem[i].value;
-            localStorage["name"+i]=nElem[i].value;
+	var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+        var nElem=$("input[name='name']");
+	jstConfig.presVocab=$("input[name='presVoc']").val();
+	jstConfig.qaVocab=$("input[name='qaVoc']").val();
+
+	console.log("First stage name :"+jstConfig.presVocab);
+        for (var i=0, len=pElem.length; i<len; i++) {
+	    console.log("Saving preset "+i+", name: "+nElem.eq(i).val());
+	    jstConfig.presets[i]={
+	    	name: nElem.eq(i).val(),
+		pres: pElem.eq(i).val(),
+		qa: qElem.eq(i).val()
+	    };
         }
 	window.location.href="index.html";
     }
     function loadSettings() {
-        var sForm=document.getElementById("setform");
-        var pElem=document.getElementsByName('pres');
-        var qElem=document.getElementsByName('qa');
-        var nElem=document.getElementsByName('name');
-    	for (var i=0; i<pElem.length; i++) {
-	    nElem[i].value=localStorage["name"+i];
-	    pElem[i].value=localStorage["pr"+i];
-	    qElem[i].value=localStorage["qa"+i];
+	jstConfig=JSON.parse(localStorage['jstConfig']);
+        var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+	var presetDiv=$("#presets");
+    	for (var i=0, len=jstConfig.presets.length; i<len; i++) {
+	    var p=jstConfig.presets[i];
+	    var pStr="<li><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <br/></li>";
+	    presetDiv.append(pStr);
 	}
-	var presVocElem=document.getElementsByName('presVoc');
-	presVocElem[0].value=localStorage["presVocab"];
-	var qaVocElem=document.getElementsByName('qaVoc');
-	qaVocElem[0].value=localStorage["qaVocab"];
+	$("input[name='presVoc']").val(jstConfig.presVocab);
+	$("input[name='qaVoc']").val(jstConfig.qaVocab);
+        // Sortable preset list
+	$("#presets").sortable();
     }
     function cancelSettings() {
     	if(confirm("Discard changes?")) {
@@ -72,17 +79,6 @@
 	    Presentation time label:
 	    <input type="text" size="20" name="presVoc" />
 	</div>
-      </td>
-      <td>
-	<div class="preset">
-	    Preset 1: <input type="text" size="16" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" />
-	</div>
-      </td>
-    </tr>
-    <tr>
-      <td>
 	<div class="preset">
 	    Q&A time label:
 	    <input type="text" size="20" name="qaVoc" />
@@ -90,20 +86,10 @@
       </td>
       <td>
 	<div class="preset">
-	    Preset 2:  <input type="text" size="16" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" />
-	</div>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-	<div class="preset">
-	    Preset 3: <input type="text" size="16" name="name" /><br/>
-	    <input type="text" size="3" name="pres" /> /
-	    <input type="text" size="3" name="qa" /> <br/>
-	</div>
+	Timer Presets</br>
+	<ul id="presets">
+	</ul>
+        </div>
       </td>
     </tr>
 </form>
