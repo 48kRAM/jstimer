@@ -8,7 +8,7 @@
     <script src="jquery.js"></script>
     <script src="timer.js"></script>
 </head>
-<body onLoad="pageStartup()" onkeypress="handleKey(event)">
+<body onkeypress="handleKey(event)">
 <div id="screen">
 
     <div id="gui">
@@ -44,6 +44,7 @@
     </div>
     
     <script language="Javascript">
+    $(document).ready(pageStartup);
     var ctx = document.getElementById("piegraph").getContext("2d");
     // Set canvas size based on viewport dimensions
     Chart.defaults.global.animation=false;
