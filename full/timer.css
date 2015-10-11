@@ -65,9 +65,16 @@ span#timer {
 	margin: 2px;
 	border-radius: 5px;
 }
-#presets li{
-	padding: 6px;
+#cfgpre {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
+#cfgpre li{
+	padding: 6px 3px 6px 1.5em;
+	margin: 0 3px 3px 3px;
+}
+#cfgpre li span { position: absolute; margin-left: -1.3em; }
 #configtable {
 	margin-top: 100px;
 	margin-left: 100px;

@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <title>JS Timer</title>
     <link rel="stylesheet" type="text/css" href="timer.css">
+    <link rel="stylesheet" href="jquery-ui.css">
     <script src="Chart.js"></script>
     <script src="jquery.js"></script>
     <script src="jquery-ui.js"></script>
     <script src="timer.js"></script>
     <script language="JavaScript">
-
 
     function updateSettings() {
         var sForm=document.getElementById("setform");
@@ -19,7 +19,6 @@
 	jstConfig.presVocab=$("input[name='presVoc']").val();
 	jstConfig.qaVocab=$("input[name='qaVoc']").val();
 
-	console.log("First stage name :"+jstConfig.presVocab);
         for (var i=0, len=pElem.length; i<len; i++) {
 	    console.log("Saving preset "+i+", name: "+nElem.eq(i).val());
 	    jstConfig.presets[i]={
@@ -28,22 +27,23 @@
 		qa: qElem.eq(i).val()
 	    };
         }
+	localStorage['jstConfig']=JSON.stringify(jstConfig);
 	window.location.href="index.html";
     }
     function loadSettings() {
 	jstConfig=JSON.parse(localStorage['jstConfig']);
         var pElem=$("input[name='pres']");
         var qElem=$("input[name='qa']");
-	var presetDiv=$("#presets");
+	var presetDiv=$("#cfgpre");
     	for (var i=0, len=jstConfig.presets.length; i<len; i++) {
 	    var p=jstConfig.presets[i];
-	    var pStr="<li><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <br/></li>";
+	    var pStr="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <br/></li>";
 	    presetDiv.append(pStr);
 	}
 	$("input[name='presVoc']").val(jstConfig.presVocab);
 	$("input[name='qaVoc']").val(jstConfig.qaVocab);
         // Sortable preset list
-	$("#presets").sortable();
+	$("#cfgpre").sortable();
     }
     function cancelSettings() {
     	if(confirm("Discard changes?")) {
@@ -87,7 +87,7 @@
       <td>
 	<div class="preset">
 	Timer Presets</br>
-	<ul id="presets">
+	<ul id="cfgpre">
 	</ul>
         </div>
       </td>
