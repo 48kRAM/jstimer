@@ -12,7 +12,7 @@
     <script language="JavaScript">
 
     function updateSettings() {
-        var sForm=document.getElementById("setform");
+	jstConfig.presets = [];
 	var pElem=$("input[name='pres']");
         var qElem=$("input[name='qa']");
         var nElem=$("input[name='name']");
@@ -37,18 +37,26 @@
 	var presetDiv=$("#cfgpre");
     	for (var i=0, len=jstConfig.presets.length; i<len; i++) {
 	    var p=jstConfig.presets[i];
-	    var pStr="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <br/></li>";
+	    var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>-</button> <br/></li>";
 	    presetDiv.append(pStr);
 	}
 	$("input[name='presVoc']").val(jstConfig.presVocab);
 	$("input[name='qaVoc']").val(jstConfig.qaVocab);
         // Sortable preset list
 	$("#cfgpre").sortable();
+	$(".remPre").click( function(e) {
+	    $(this).closest("li").remove();
+	});
+
     }
     function cancelSettings() {
     	if(confirm("Discard changes?")) {
 	    window.location.href="index.html";
 	}
+    }
+    function removePreset() {
+	console.log(this);
+    	$(this).closest('li').remove();
     }
     </script>
 </head>
@@ -57,7 +65,7 @@
     <table id="configtable">
     <form id="setform">
     <tr>
-      <td rowspan="4">
+      <td rowspan="4" valign="top">
 	<div class="helptext">
 	  <h2>Configure JS Timer</h2>
 	  <p>
@@ -67,14 +75,14 @@
 	  is the number of minutes for the talk / presentation. The second
 	  field (right) is the number of minutes for the Q&amp;A period.
 	  </p>
-	  <p>If you don't want to use the Q&amp;A period, simply leave the right-hand
-	  time field blank.
+	  <p>If you don't want to use the Q&amp;A period, simply leave the
+	  right-hand time field blank.
 	  </p>
 	  <p>Click "Save settings" to save your presets or "Cancel" to discard
 	  changes and return to the original presets.</p>
 	</div>
       </td>
-      <td>
+      <td valign="top">
 	<div class="preset">
 	    Presentation time label:
 	    <input type="text" size="20" name="presVoc" />
@@ -84,11 +92,12 @@
 	    <input type="text" size="20" name="qaVoc" />
 	</div>
       </td>
-      <td>
+      <td valign="top">
 	<div class="preset">
 	Timer Presets</br>
 	<ul id="cfgpre">
 	</ul>
+	<button id="addpre">+</button>
         </div>
       </td>
     </tr>
@@ -101,6 +110,13 @@
       </td>
     </tr>
     </table>
+    <script>
+    $("#addpre").click( function(e) {
+    	e.preventDefault();
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
+
+    });
+    </script>
 
 </body>
 </html>

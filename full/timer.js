@@ -9,7 +9,6 @@ function initConfig() {
     jstConfig.presets=[
 	{name:'Keynote', pres:50, qa:10},
 	{name:'Invited talk', pres:30, qa:10},
-	{name:'Contributed Talk', pres:15, qa:5}
     ];
     jstConfig.presVocab='Presentation';
     jstConfig.qaVocab='Question / Answer';
@@ -223,11 +222,15 @@ function goHelp() {
 
 function handleKey(evt) {
     var theKey=(evt.which) ? evt.which : evt.keyCode;
-    if(theKey>111 && theKey< 116) {
+    if(theKey>111 && theKey< 119) {
+	// F1-F8 keys, - Activate presets
 	evt.preventDefault();
+	var presetNum=theKey-112;
+	$("#preset"+presetNum).trigger("click");
     }
     var running=0;
-    if (document.getElementById('gui').style.visibility=='hidden') {
+    var guiState=$("#gui").css('display');
+    if (guiState==='none') {
 	running=1;
     }
     //alert(theKey);
@@ -236,19 +239,6 @@ function handleKey(evt) {
 	case 32:
 	    if(running) { showGui(); }
 	    else { startTimer(0,0); }
-	    break;
-	// F1-F4 keys, - Activate presets
-	case 112:
-	    document.getElementById('preset0').click();
-	    break;
-	case 113:
-	    document.getElementById('preset1').click();
-	    break;
-	case 114:
-	    document.getElementById('preset2').click();
-	    break;
-	case 115:
-	    document.getElementById('demo').click();
 	    break;
 	// C key - display clock
 	case 99:
