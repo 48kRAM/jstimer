@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -13,11 +13,12 @@
 <div id="screen">
 
     <div id="gui">
-	<div id="presets">
+	<div id="presets" class="runpreset">
 	</div>
+	<div id="stdButtons" class="runpreset">
         <button id="demo" onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
         <button onClick="showClock()">Real-time<br/>clock</button>
-        <br/><br/>
+	</div>
         <hr/>
         <b>Custom timer: </b> &nbsp;
         <form name="usertime">
@@ -30,7 +31,9 @@
         <input type="checkbox" id="autoQA" checked="checked" value="1">
 	    Use Q&amp;A
         </form>
+	<div class="runpreset">
         <button onClick="startTimer(0,0)">Resume countdown</button>
+	</div>
 	<hr/>
 	<button onClick="goConfigure()">Configure</button>
 	<button onClick="goHelp()">Help</button>

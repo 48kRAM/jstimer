@@ -11,7 +11,7 @@ body {
 	height: 100vh;
 	z-index: 1;
 	}
-input[type=button], button {
+.runpreset input[type=button], .runpreset button {
 	-webkit-appearance: none;
 	width: 100px; padding: 4px;
 	margin-bottom: 3px;
