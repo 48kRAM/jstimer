@@ -9,7 +9,7 @@
     <script src="jquery-ui.js"></script>
     <script src="timer.js"></script>
 </head>
-<body onkeypress="handleKey(event)">
+<body>
 <div id="screen">
 
     <div id="gui">
@@ -58,6 +58,7 @@
 	});
     handleResize();
     window.addEventListener('resize', handleResize);
+    window.addEventListener('keydown', handleKey);
     </script>
     <audio id="timeupsnd">
     	<source src="sound/ping2.mp3"></source>
