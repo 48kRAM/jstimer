@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>JS Timer</title>
+    <link rel="stylesheet" type="text/css" href="timer.css">
+    <link rel="stylesheet" href="jquery-ui.css">
+    <script src="Chart.js"></script>
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+    <script src="timer.js"></script>
+    <script language="JavaScript">
+
+    function updateSettings() {
+	jstConfig.presets = [];
+	var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+        var nElem=$("input[name='name']");
+	jstConfig.presVocab=$("input[name='presVoc']").val();
+	jstConfig.qaVocab=$("input[name='qaVoc']").val();
+
+        for (var i=0, len=pElem.length; i<len; i++) {
+	    console.log("Saving preset "+i+", name: "+nElem.eq(i).val());
+	    jstConfig.presets[i]={
+	    	name: nElem.eq(i).val(),
+		pres: pElem.eq(i).val(),
+		qa: qElem.eq(i).val()
+	    };
+        }
+	localStorage['jstConfig']=JSON.stringify(jstConfig);
+	window.location.href="index.html";
+    }
+    function loadSettings() {
+	jstConfig=JSON.parse(localStorage['jstConfig']);
+        var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+	var presetDiv=$("#cfgpre");
+    	for (var i=0, len=jstConfig.presets.length; i<len; i++) {
+	    var p=jstConfig.presets[i];
+	    var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>-</button> <br/></li>";
+	    presetDiv.append(pStr);
+	}
+	$("input[name='presVoc']").val(jstConfig.presVocab);
+	$("input[name='qaVoc']").val(jstConfig.qaVocab);
+        // Sortable preset list
+	$("#cfgpre").sortable();
+	$(".remPre").click( function(e) {
+	    $(this).closest("li").remove();
+	});
+
+    }
+    function cancelSettings() {
+    	if(confirm("Discard changes?")) {
+	    window.location.href="index.html";
+	}
+    }
+    function removePreset() {
+	console.log(this);
+    	$(this).closest('li').remove();
+    }
+    </script>
+</head>
+<body onLoad="loadSettings()">
+
+    <table id="configtable">
+    <form id="setform">
+    <tr>
+      <td rowspan="4" valign="top">
+	<div class="helptext">
+	  <h2>Configure JS Timer</h2>
+	  <p>
+	  Configure the timer preset buttons using the fields on the right.
+	  For each present, enter a Preset Name in the top field, and the 
+	  time slots in the bottom two fields. The first time field (left)
+	  is the number of minutes for the talk / presentation. The second
+	  field (right) is the number of minutes for the Q&amp;A period.
+	  </p>
+	  <p>If you don't want to use the Q&amp;A period, simply leave the
+	  right-hand time field blank.
+	  </p>
+	  <p>Click "Save settings" to save your presets or "Cancel" to discard
+	  changes and return to the original presets.</p>
+	</div>
+      </td>
+      <td valign="top">
+	<div class="preset">
+	    Presentation time label:
+	    <input type="text" size="20" name="presVoc" />
+	</div>
+	<div class="preset">
+	    Q&A time label:
+	    <input type="text" size="20" name="qaVoc" />
+	</div>
+      </td>
+      <td valign="top">
+	<div class="preset">
+	Timer Presets</br>
+	<ul id="cfgpre">
+	</ul>
+	<button id="addpre">+</button>
+        </div>
+      </td>
+    </tr>
+</form>
+    <tr>
+      <td></td>
+      <td>
+	<button onClick="updateSettings()">Save settings</button>
+	<button onClick="cancelSettings()">Cancel</button>
+      </td>
+    </tr>
+    </table>
+    <script>
+    $("#addpre").click( function(e) {
+    	e.preventDefault();
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
+
+    });
+    </script>
+
+</body>
+</html>
+
