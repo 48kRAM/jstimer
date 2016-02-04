@@ -29,7 +29,7 @@
 		FA3250D714BA860800BF0781 /* Growl.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3250CD14BA860800BF0781 /* Growl.m */; };
 		FA3250D914BA860800BF0781 /* Path.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3250CF14BA860800BF0781 /* Path.m */; };
 		FA3250DB14BA860800BF0781 /* Sound.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3250D114BA860800BF0781 /* Sound.m */; };
-		FA3250DF14BA878D00BF0781 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3250DE14BA878D00BF0781 /* Growl.framework */; };
+		FA3250DF14BA878D00BF0781 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3250DE14BA878D00BF0781 /* Growl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FA3250E514BA883A00BF0781 /* public in Resources */ = {isa = PBXBuildFile; fileRef = FA3250E414BA883A00BF0781 /* public */; };
 		FA3250E714BA8BCE00BF0781 /* application.icns in Resources */ = {isa = PBXBuildFile; fileRef = FA3250E614BA8BCE00BF0781 /* application.icns */; };
 		FA3F7742168F70790027B324 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3F7741168F70780027B324 /* Cocoa.framework */; };
@@ -283,7 +283,7 @@
 		FAE451B114BA79C600190544 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					FAE451B914BA79C600190544 = {
@@ -399,9 +399,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -417,8 +417,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -426,7 +426,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -439,7 +438,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -460,6 +459,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "MacGap/JS Timer-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.48kRAM.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "JS Timer";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -483,6 +483,7 @@
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "MacGap/JS Timer-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.github.48kRAM.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "JS Timer";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
