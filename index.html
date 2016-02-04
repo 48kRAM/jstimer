@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Jstimer : A simple HTML/JS countdown timer app for use in meetings and conferences.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jstimer</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/48kRAM/jstimer">View on GitHub</a>
+
+          <h1 id="project_title">Jstimer</h1>
+          <h2 id="project_tagline">A simple HTML/JS countdown timer app for use in meetings and conferences.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/48kRAM/jstimer/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/48kRAM/jstimer/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="jstimer" class="anchor" href="#jstimer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>jstimer</h1>
+
+<p>Download the latest release <a href="https://github.com/48kRAM/jstimer/releases/latest">here.</a></p>
+
+<p>A simple HTML5/JS countdown timer app for use in meetings and conferences.</p>
+
+<p>My employer puts on an annual science symposium with a large number of attendees. We needed an easy-to-use session countdown timer with a simple display that speakers could understand that also worked off-line so it wasn't dependent on poor conference hotel wifi.</p>
+
+<p>jstimer displays a large countdown timer along with a clock widget indicating the speaker's progress through the talk and Q&amp;A time. Once the timer expires, jstimer flashes a large red indicator that the time is up.</p>
+
+<p>jstimer has an auto-hiding GUI for selecting timer presets or entering a time manually. Once timing begins, the GUI is hidden so that an attractive countdown is shown to the speaker. Clicking on the counting time pauses the countdown and displays the GUI again. You can resume the countdown by clicking the "Resume Countdown" button and the GUI will once again disapper and the timer will contiue counting from the point at which it was paused. As of version 1.0, presets can be configured easily (no more editing the file) and will be saved for future use (preset are saved in HTML5 local storage).</p>
+
+<p>There is a live demo version available on <a href="http://www.cv.nrao.edu/%7Ejmalone/tools/jstimer/">my homepage</a></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>jstimer can be configured with a number of timer "presets". To do this, click the "Configure" button at the bottom of the green control panel on the left-hand side of the screen. On the configuration screen, you can edit the names and times (in minutes) of the presets. Only 3 presets are available at this time. Click "Save settings" to save the new presets or "Cancel" to discard your changes.</p>
+
+<p>The "full" jstimer uses Chart.js to display a clock-like widget behind the timer text. This widget shows the amount of time remaining in both the "Presentation" and "Q&amp;A" parts of the session, whereas the bar graph in the "lite" version only shows total time. The "full" version is the most actively developed and is the one used in the OSX "app" release". Most people should use this version.</p>
+
+<p>jstimer "lite" is a single-file HTML/javascript timer application. To use it, open it in the web browser of your choice (Firefox and Safari tested). For best results, set your browser in fullscreen mode and hide any toolbars. Use this version only if you really need a single-file timer. To change presets in the "lite" version you have to edit the timer.html file and change or add buttons for the timings you need.</p>
+
+<h2>
+<a id="presentation-vs-qa" class="anchor" href="#presentation-vs-qa" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Presentation vs. Q&amp;A</h2>
+
+<p>Often, conference talks consist of 2 parts:  a Presentation section and a Q&amp;A section. jstimer makes it easy to break a talk into presentation and q&amp;a sections. Once the Presentation timer expires, the clock automatically moves to the Q&amp;A time and changes the display accordingly.</p>
+
+<p>If you don't need the Q&amp;A section, simply set the Q&amp;A time to '0' in your buttons. If you want to temporarily disable the Q&amp;A timer during the conference, uncheck the box for "Auto-advance to Q/A" in the gui.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jstimer maintained by <a href="https://github.com/48kRAM">48kRAM</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
