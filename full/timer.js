@@ -90,6 +90,9 @@ function timerFunc() {
 	    talkPart=2;
 	    ticks=qaTime;
 	    updateDisplay();
+	    if(jstConfig.qasoundOn) {
+		$("#qasnd").trigger('play');
+	    }
 	    $("#mode").html("Question / Answer");
 	} else {
 	    updateDisplay();
