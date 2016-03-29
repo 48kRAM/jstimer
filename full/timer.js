@@ -36,15 +36,15 @@ function userTimer(F) {
     startTimer(F.userTalk.value*60, F.userQA.value*60);
 }
 function startTimer(talkSecs, qaSecs) {
+    elapsed=0;
+    qaTime=0;
     if (talkSecs>0) {
-	elapsed=0;
 	$("#mode").html(jstConfig["presVocab"]);
 	ticks=talkSecs;
 	talkPart=1;
 	qaTime=qaSecs;
     } else {
 	if (qaSecs>0) {
-	    elapsed=0;
 	    $("#mode").html(jstConfig["qaVocab"]);
 	    talkPart=2;
 	    ticks=qaSecs;
@@ -81,12 +81,14 @@ function updateDisplay() {
 	pieChart.update();
     }
 }
+
+// timerFunc is the main tick handler
 function timerFunc() {
     ticks=ticks-1;
     elapsed=elapsed+1;
     if (ticks <=0 ) {
 	var x=document.getElementById('autoQA');
-	if (talkPart==1 && x.checked) {
+	if (talkPart==1 && x.checked && qaTime > 0) {
 	    talkPart=2;
 	    ticks=qaTime;
 	    updateDisplay();
