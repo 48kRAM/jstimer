@@ -26,59 +26,7 @@ function pageStartup() {
         initConfig();
     }
 
-    if(typeof(macgap)!="undefined") {
-	// Add some handlers if using MacGap binary
-	macgap.menu.getItem("Help").submenu().getItem("JS Timer Help").setCallback(
-	    function() { goHelp(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 1').setCallback(
-	    function() { document.getElementById('preset0').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 2').setCallback(
-	    function() { document.getElementById('preset1').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Preset 3').setCallback(
-	    function() { document.getElementById('preset2').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Demo').setCallback(
-	    function() { document.getElementById('demo').click(); } );
-	macgap.menu.getItem("Run").submenu().getItem('Clock').setCallback(
-	    function() { showClock(); } );
-    } // End macgap setup
-    var isNode = (typeof process !== "undefined" && typeof require !== "undefined");
-    if(isNode) {
-	// GUI handler options for running in node-webkit
-	var gui = require('nw.gui');
-	var win = gui.Window.get();
-	var menubar = new gui.Menu({type: 'menubar'});
-	var mrun = new gui.Menu();
-	menubar.append(new gui.MenuItem( {label: 'Run...', submenu: mrun}));
-
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 1',
-	    click: function() { document.getElementById('preset0').click(); },
-	    key: 'F1'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 2',
-	    click: function() { document.getElementById('preset1').click(); },
-	    key: 'F2'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Preset 3',
-	    click: function() { document.getElementById('preset2').click(); },
-	    key: 'F3'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Demo',
-	    click: function() { document.getElementById('demo').click(); },
-	    key: 'F4'
-	}));
-	mrun.append(new gui.MenuItem({
-	    label: 'Clock',
-	    click: function() { showClock(); },
-	    key: 'c'
-	}));
-
-	win.menu = menubar;
-    } // End node setup
-    // Load the sound clip
+     // Load the sound clip
     $("#timeupsnd").trigger('load');
     setupGui();
     updateDisplay();
@@ -88,15 +36,15 @@ function userTimer(F) {
     startTimer(F.userTalk.value*60, F.userQA.value*60);
 }
 function startTimer(talkSecs, qaSecs) {
+    elapsed=0;
+    qaTime=0;
     if (talkSecs>0) {
-	elapsed=0;
 	$("#mode").html(jstConfig["presVocab"]);
 	ticks=talkSecs;
 	talkPart=1;
 	qaTime=qaSecs;
     } else {
 	if (qaSecs>0) {
-	    elapsed=0;
 	    $("#mode").html(jstConfig["qaVocab"]);
 	    talkPart=2;
 	    ticks=qaSecs;
@@ -133,15 +81,20 @@ function updateDisplay() {
 	pieChart.update();
     }
 }
+
+// timerFunc is the main tick handler
 function timerFunc() {
     ticks=ticks-1;
     elapsed=elapsed+1;
     if (ticks <=0 ) {
 	var x=document.getElementById('autoQA');
-	if (talkPart==1 && x.checked) {
+	if (talkPart==1 && x.checked && qaTime > 0) {
 	    talkPart=2;
 	    ticks=qaTime;
 	    updateDisplay();
+	    if(jstConfig.qasoundOn) {
+		$("#qasnd").trigger('play');
+	    }
 	    $("#mode").html("Question / Answer");
 	} else {
 	    updateDisplay();
@@ -221,8 +174,9 @@ function goHelp() {
 }
 
 function handleKey(evt) {
-    var theKey=(evt.which) ? evt.which : evt.keyCode;
-    if(theKey>111 && theKey< 119) {
+    var theKey=evt.which;
+    // Disabled for now
+    if(false && theKey>111 && theKey< 119) {
 	// F1-F8 keys, - Activate presets
 	evt.preventDefault();
 	var presetNum=theKey-112;

@@ -9,14 +9,14 @@
     <script src="jquery-ui.js"></script>
     <script src="timer.js"></script>
 </head>
-<body onkeypress="handleKey(event)">
+<body>
 <div id="screen">
 
     <div id="gui">
 	<div id="presets" class="runpreset">
 	</div>
 	<div id="stdButtons" class="runpreset">
-        <button id="demo" onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
+        <button id="demo" onClick="startTimer(10,5)">Demo<br/>10s / 5s</button>
         <button onClick="showClock()">Real-time<br/>clock</button>
 	</div>
         <hr/>
@@ -54,15 +54,18 @@
     Chart.defaults.global.animation=false;
     var pieChart = new Chart(ctx).Pie(timedata, {
 	segmentShowStroke : false
-
 	});
     handleResize();
     window.addEventListener('resize', handleResize);
+    window.addEventListener('keydown', handleKey);
     </script>
     <audio id="timeupsnd">
-    	<source src="sound/ping2.mp3"></source>
-	JSTimer requires an HTML5-compliant browser. Audio 
-	will not function.
+    	<source src="sound/end_beep.mp3"></source>
+	JSTimer requires an HTML5-compliant browser. Audio will not function.
+    </audio>
+    <audio id="qasnd">
+    	<source src="sound/qa_beep.mp3"></source>
+	JSTimer requires an HTML5-compliant browser. Audio will not function.
     </audio>
 
 </div> <!-- screen -->

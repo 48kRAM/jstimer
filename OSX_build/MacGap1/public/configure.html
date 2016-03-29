@@ -27,6 +27,8 @@
 		qa: qElem.eq(i).val()
 	    };
         }
+	jstConfig.qasoundOn=$("input[name='qasndon']").is(':checked');
+	console.log("QA sound is "+jstConfig.qasoundOn);
 	localStorage['jstConfig']=JSON.stringify(jstConfig);
 	window.location.href="index.html";
     }
@@ -47,6 +49,7 @@
 	$(".remPre").click( function(e) {
 	    $(this).closest("li").remove();
 	});
+	$("input[name='qasndon']").prop('checked', jstConfig.qasoundOn);
 
     }
     function cancelSettings() {
@@ -90,6 +93,10 @@
 	<div class="preset">
 	    Q&A time label:
 	    <input type="text" size="20" name="qaVoc" />
+	</div>
+	<div class="preset">
+	    Play sound when starting Q&A
+	    <input type="checkbox" name="qasndon" >
 	</div>
       </td>
       <td valign="top">
