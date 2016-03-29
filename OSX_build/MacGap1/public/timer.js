@@ -33,23 +33,10 @@ function pageStartup() {
 }
 
 function userTimer(F) {
-    startTimer(F.userTalk.value*60, F.userQA.value*60);
+    setTimer(F.userTalk.value*60, F.userQA.value*60);
 }
-function startTimer(talkSecs, qaSecs) {
-    elapsed=0;
-    qaTime=0;
-    if (talkSecs>0) {
-	$("#mode").html(jstConfig["presVocab"]);
-	ticks=talkSecs;
-	talkPart=1;
-	qaTime=qaSecs;
-    } else {
-	if (qaSecs>0) {
-	    $("#mode").html(jstConfig["qaVocab"]);
-	    talkPart=2;
-	    ticks=qaSecs;
-	}
-    }
+// Just start timing - don't reset the counters
+function beginTiming() {
     updateDisplay();
     $("#graphholder").show("slow");
     $("#gui").hide("fast");
@@ -58,6 +45,23 @@ function startTimer(talkSecs, qaSecs) {
     t.css('fontSize', '');
     clearInterval(counter);
     counter=setInterval(timerFunc, 1000);
+}
+// Set the timing counters and start the clock timing
+function setTimer(talkSecs, qaSecs) {
+    qaTime=0;
+    if (talkSecs>0) {
+	elapsed=0;
+	$("#mode").html(jstConfig["presVocab"]);
+	ticks=talkSecs;
+	talkPart=1;
+	qaTime=qaSecs;
+    } else if (qaSecs>0) {
+	elapsed=0;
+	$("#mode").html(jstConfig["qaVocab"]);
+	talkPart=2;
+	ticks=qaSecs;
+    }
+    beginTiming();
 }
 function updateDisplay() {
     var clock=$("#timer");
@@ -149,7 +153,7 @@ function setupGui() {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
 	qsec=p.qa*60;
-	bStr="<button id='preset"+i+"' onClick='startTimer("+psec+","+
+	bStr="<button id='preset"+i+"' onClick='setTimer("+psec+","+
 	    qsec+")'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
 	presetpane.append(bStr);
     }
@@ -192,7 +196,7 @@ function handleKey(evt) {
 	// Space bar - pause, or resume
 	case 32:
 	    if(running) { showGui(); }
-	    else { startTimer(0,0); }
+	    else { beginTiming(); }
 	    break;
 	// C key - display clock
 	case 99:
