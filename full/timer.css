@@ -89,3 +89,6 @@ td#configtable {
 	border-radius: 8px;
 	padding: 20px;
 }
+#version {
+	font-size: .6em;
+}

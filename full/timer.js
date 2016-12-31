@@ -3,6 +3,8 @@ var ticks=0, mins=0, secs=0, counter, timeStr, talkPart=0, qaTime, talkLen, elap
 // Global configuration array
 var jstConfig = {
 };
+// App versoin
+var jstVersion="2.99.1";
 
 function initConfig() {
     // Define some initial defaults if local storage not setup yet
@@ -207,6 +209,7 @@ function setupGui() {
 	},
 	{'type':'keydown','disable_in_input':true} );
     }
+    $("#version").html("JSTimer ver. "+jstVersion);
 }
 function goConfigure() {
     if(ticks>0) {
