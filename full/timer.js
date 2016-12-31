@@ -78,6 +78,7 @@ function setTimer(talkSecs, qaSecs) {
 	$("#mode").html(jstConfig["qaVocab"]);
 	talkPart=2;
 	ticks=qaSecs;
+	qaTime=qaSecs;
     }
     beginTiming();
 }
@@ -93,6 +94,7 @@ function updateDisplay() {
     }
     clock.html(mins + ":" +secs);
     if(elapsed>0 || ticks>0) {
+        // Update the pie chart settings
 	pieChart.segments[0].value=elapsed;
 	if (talkPart==2) {
 	    pieChart.segments[1].value=0;
@@ -186,7 +188,6 @@ function setupGui() {
     // Draw the controls GUI - called at page startup only
     var bStr, i;
     var presetpane=$("#presets");
-    console.log("Creating control panel");
     for (i=0, len=jstConfig.presets.length; i<len; i++) {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
