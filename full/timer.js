@@ -1,5 +1,6 @@
 /*jslint browser: true */
-var ticks=0, mins=0, secs=0, counter, timeStr, talkPart=0, qaTime, talkLen, elapsed=0;
+var ticks=0, mins=0, secs=0, counter, timeStr, talkPart=0, qaTime, talkLen, elapsed=0, timerRunning=0;
+// Global configuration array
 var jstConfig = {
 };
 
@@ -16,6 +17,7 @@ function initConfig() {
     localStorage['jstConfig']=JSON.stringify(jstConfig);
 }
 function pageStartup() {
+    // First startup - called when page is ready
     console.log("Page startup...");
     try {
 	jstConfig=JSON.parse(localStorage['jstConfig']);
@@ -26,9 +28,22 @@ function pageStartup() {
         initConfig();
     }
 
+    setupGui();
      // Load the sound clip
     $("#timeupsnd").trigger('load');
-    setupGui();
+
+    // Configure global shortcut Space to run/pause timer
+    shortcut.add("Space", function() {
+        if (timerRunning) { showGui(); }
+	else { beginTiming(); }
+    }, { 'type':'keydown', 'disable_in_input':true } );
+    // Configure global shortcut key C for ToD clock
+    shortcut.add("c", function() {
+	if (!timerRunning) {
+	    showClock();
+	}
+    }, { 'type':'keydown', 'disable_in_input':true } );
+    timerRunning=0;
     updateDisplay();
 }
 
@@ -43,6 +58,7 @@ function beginTiming() {
     var t=$("#timer")
     t.removeClass('timerred');
     t.css('fontSize', '');
+    timerRunning=1;
     clearInterval(counter);
     counter=setInterval(timerFunc, 1000);
 }
@@ -64,6 +80,8 @@ function setTimer(talkSecs, qaSecs) {
     beginTiming();
 }
 function updateDisplay() {
+    // Redraws the time clock and pie chart - called
+    // each time a second elapses
     var clock=$("#timer");
     var x=document.getElementById('autoQA');
     mins=Math.floor(ticks/60);
@@ -86,47 +104,60 @@ function updateDisplay() {
     }
 }
 
-// timerFunc is the main tick handler
 function timerFunc() {
+    // timerFunc is the main tick handler
     ticks=ticks-1;
     elapsed=elapsed+1;
     if (ticks <=0 ) {
 	var x=document.getElementById('autoQA');
 	if (talkPart==1 && x.checked && qaTime > 0) {
+	    // This code advances from Presentation to Q&A
 	    talkPart=2;
+	    // Reset the ticks counter to seconds for the Q&A part
 	    ticks=qaTime;
 	    updateDisplay();
 	    if(jstConfig.qasoundOn) {
+	        // Play the Q&A chime if it's turned on in config
 		$("#qasnd").trigger('play');
 	    }
-	    $("#mode").html("Question / Answer");
+	    // Change the screen text
+	    $("#mode").html(jstConfig["qaVocab"]);
 	} else {
 	    updateDisplay();
 	    clearInterval(counter);
 	    var elem=$("#timer");
 	    elem.css('fontSize', "10em");
 	    elem.html("Your time has expired!");
+	    // Clear the Pres/QA mode text
 	    $("#mode").html("");
+	    // Remove the pie chart
 	    $("#graphholder").hide();
+	    // Play the time-up sound
 	    $("#timeupsnd").trigger('play');
+	    // Animate the time-up text
 	    $("#textdiv").effect("bounce", {times:3}, 400);
-	    timeIsUp();
-	    counter=setInterval(timeIsUp, 700);
+	    // Start flashing the time-up text
+	    timeUpFlash();
+	    counter=setInterval(timeUpFlash, 700);
 	}
     } else {
+    	// Normal countdown tick - show the new time
 	updateDisplay();
     }
 }
 function showGui() {
-    setupGui();
     $("#timer").removeClass('timerred');
     $("#gui").show("fast");
+    // Interrupt the countdown whenever GUI is shown
+    timerRunning=0;
     clearInterval(counter);
 }
-function timeIsUp() {
+function timeUpFlash() {
+    // Flash the time-up text red / black
     $("#timer").toggleClass('timerred');
 }
 function clockFunc() {
+    // Tick handler for the time-of-day (ToD) clock mode
     var now=new Date();
     var hour=now.getHours();
     var minute=now.getMinutes();
@@ -141,14 +172,19 @@ function showClock() {
     var t=$("#timer")
     t.removeClass('timerred');
     t.css('fontSize', '');
+    // Make sure the countdown is stopped
     clearInterval(counter);
+    // Show the ToD clock
     clockFunc();
+    // Update clock every second
     counter=setInterval(clockFunc, 1000);
 }
+
 function setupGui() {
+    // Draw the controls GUI - called at page startup only
     var bStr, i;
     var presetpane=$("#presets");
-    presetpane.html('');
+    console.log("Creating control panel");
     for (i=0, len=jstConfig.presets.length; i<len; i++) {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
@@ -156,6 +192,20 @@ function setupGui() {
 	bStr="<button id='preset"+i+"' onClick='setTimer("+psec+","+
 	    qsec+")'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
 	presetpane.append(bStr);
+	// Bind a number key shortcut to the button
+	var scNumKey=i+1;
+	shortcut.remove(scNumKey.toString() );
+	shortcut.add(scNumKey.toString(), function(event) {
+	    // Run a preset triggered by pressing a number key on kbd
+	    // Only if another timer is not running (safety)
+	    if (!timerRunning) {
+		// Presets are numbered from 0 but shortcut keys start at 1
+		var presetNum = event.which - 49;
+		console.log ("shortcut " +presetNum.toString() );
+		$("#preset"+presetNum).trigger("click");
+	    }
+	},
+	{'type':'keydown','disable_in_input':true} );
     }
 }
 function goConfigure() {
@@ -177,39 +227,13 @@ function goHelp() {
     }
 }
 
-function handleKey(evt) {
-    var theKey=evt.which;
-    // Disabled for now
-    if(false && theKey>111 && theKey< 119) {
-	// F1-F8 keys, - Activate presets
-	evt.preventDefault();
-	var presetNum=theKey-112;
-	$("#preset"+presetNum).trigger("click");
-    }
-    var running=0;
-    var guiState=$("#gui").css('display');
-    if (guiState==='none') {
-	running=1;
-    }
-    //alert(theKey);
-    switch(theKey) {
-	// Space bar - pause, or resume
-	case 32:
-	    if(running) { showGui(); }
-	    else { beginTiming(); }
-	    break;
-	// C key - display clock
-	case 99:
-	    showClock();
-	    break;
-    }
-}
 function handleResize() {
     var graphDiv=document.getElementById('graphholder');
     var pieGraph=document.getElementById('piegraph');
     var sHeight=window.innerHeight;
     var sWidth=window.innerWidth;
-    var gH=sHeight-120;     // Leave room for mode and margins
+    // Leave room for mode and margins
+    var gH=sHeight-120;
     var gW=sWidth-(115*2)-20;
     ctx.canvas.width=gW;
     ctx.canvas.height=gH;
@@ -221,6 +245,7 @@ function handleResize() {
     });
 }
 
+// Initial timer settings just to get a full pie chart
 var timedata = [
     {
 	value: 00,
