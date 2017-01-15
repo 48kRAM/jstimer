@@ -1,10 +1,11 @@
 /*jslint browser: true */
 var ticks=0, mins=0, secs=0, counter, timeStr, talkPart=0, qaTime, talkLen, elapsed=0, timerRunning=0;
+var ctx, pieChart; // For the canvas and pie graph
 // Global configuration array
 var jstConfig = {
 };
 // App versoin
-var jstVersion="2.99.1";
+var jstVersion="2.99.2";
 
 function initConfig() {
     // Define some initial defaults if local storage not setup yet
@@ -47,6 +48,12 @@ function pageStartup() {
     }, { 'type':'keydown', 'disable_in_input':true } );
     timerRunning=0;
     updateDisplay();
+    ctx = document.getElementById("piegraph").getContext("2d");
+    // Set canvas size based on viewport dimensions
+    Chart.defaults.global.animation=false;
+    pieChart = new Chart(ctx).Pie(timedata, {
+        segmentShowStroke : false
+    });
 }
 
 function userTimer(F) {
@@ -265,3 +272,10 @@ var timedata = [
 	label: "Question / Answer"
     }
 ];
+
+// Javascript startup code - moved from HTMl file
+document.addEventListener('DOMContentLoaded', function() {
+    pageStartup();
+    handleResize();
+
+}, false);
