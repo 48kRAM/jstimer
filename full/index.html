@@ -48,6 +48,62 @@
     <div id="textdiv"> 
 	<span id="timer"> </span>
     </div>
+    <div id="configuration">
+
+    <table id="configtable">
+    <form id="setform">
+    <tr>
+      <td rowspan="4" valign="top">
+        <div class="helptext">
+          <h2>Configure JS Timer</h2>
+          <p>
+          Configure the timer preset buttons using the fields on the right.
+          For each present, enter a Preset Name in the top field, and the 
+          time slots in the bottom two fields. The first time field (left)
+          is the number of minutes for the talk / presentation. The second
+          field (right) is the number of minutes for the Q&amp;A period.
+          </p>
+          <p>If you don't want to use the Q&amp;A period, simply leave the
+          right-hand time field blank.
+          </p>
+          <p>Click "Save settings" to save your presets or "Cancel" to discard
+          changes and return to the original presets.</p>
+        </div>
+      </td>
+      <td valign="top">
+        <div class="preset">
+            Presentation time label:
+            <input type="text" size="20" name="presVoc" />
+        </div>
+        <div class="preset">
+            Q&A time label:
+            <input type="text" size="20" name="qaVoc" />
+        </div>
+        <div class="preset">
+            Play sound when starting Q&A
+            <input type="checkbox" name="qasndon" >
+        </div>
+      </td>
+      <td valign="top">
+        <div class="preset">
+        Timer Presets</br>
+        <ul id="cfgpre">
+        </ul>
+        <button id="addpre">+</button>
+        </div>
+      </td>
+    </tr>
+    </form>
+    <tr>
+      <td></td>
+      <td>
+        <button id="cfgsave" onClick="updateSettings()">Save settings</button>
+        <button id="cfgcancel" onClick="cancelSettings()">Cancel</button>
+      </td>
+    </tr>
+    </table>
+
+    </div>
     
     <audio id="timeupsnd">
     	<source src="sound/end_beep.mp3"></source>

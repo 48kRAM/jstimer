@@ -88,6 +88,7 @@ function pageStartup() {
 	showGui, false);
     document.getElementById("userbutton").addEventListener("click",
 	userTimer, false);
+    // config buttons
 }
 
 function userTimer() {
@@ -268,12 +269,31 @@ function setupGui() {
 }
 function goConfigure() {
     if(ticks>0) {
-	if(confirm("Are you sure you want to configure now?")) {
-	    window.location.href="configure.html";
+	if(!confirm("Are you sure you want to configure now?")) {
+	    return (false);
 	}
-    } else {
-	window.location.href="configure.html";
     }
+    //window.location.href="configure.html";
+    // Build config page from jstConfig
+    var presetDiv=$("#cfgpre");
+    for (var i=0, len=jstConfig.presets.length; i<len; i++) {
+    	var p=jstConfig.presets[i];
+	var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></sp an><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>Del</button> <br/></li>";
+	presetDiv.append(pStr);
+    }
+    $("input[name='presVoc']").val(jstConfig.presVocab);
+    $("input[name='qaVoc']").val(jstConfig.qaVocab);
+    // Sortable preset list
+    $(".remPre").click( function(e) {
+	$(this).closest("li").remove();
+    });
+    $("input[name='qasndon']").prop('checked', jstConfig.qasoundOn);
+
+    $("#graphholder").hide();
+    $("#textdiv").hide();
+    $("#gui").hide();
+    $("#configtable").show();
+    $("#cfgpre").sortable();
 }
 function goHelp() {
     if(ticks>0) {
