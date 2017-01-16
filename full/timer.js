@@ -9,7 +9,6 @@ var jstVersion="2.99.2";
 
 function initConfig() {
     // Define some initial defaults if local storage not setup yet
-    console.log("Applying default presets");
     jstConfig.presets=[
 	{name:'Keynote', pres:50, qa:10},
 	{name:'Invited talk', pres:30, qa:10},
@@ -17,13 +16,28 @@ function initConfig() {
     jstConfig.presVocab='Presentation';
     jstConfig.qaVocab='Question / Answer';
     jstConfig.cfgVer='1.9';
-    localStorage['jstConfig']=JSON.stringify(jstConfig);
+    if (window.chrome && chrome.runtime && chrome.runtime.id) {
+    	chrome.storage.local.set({'jstConfig': JSON.stringify(jstConfig) });
+    } else {
+	// Normal HTML5 browser mode
+	localStorage['jstConfig']=JSON.stringify(jstConfig);
+    }
+
 }
 function pageStartup() {
     // First startup - called when page is ready
-    console.log("Page startup...");
+    // Get config string either from HTML5 of chrome storage
+    var configString;
+    if (window.chrome && chrome.runtime && chrome.runtime.id) {
+    	configString = chrome.storage.local.get('jstConfig', function(result) {
+	    configString = result.jstConfig;
+	});
+    } else {
+	// Normal HTML5 browser mode
+	configString=localStorage['jstConfig'];
+    }
     try {
-	jstConfig=JSON.parse(localStorage['jstConfig']);
+	jstConfig=JSON.parse(configString);
     } catch(e) {
 	initConfig();
     }
@@ -54,10 +68,34 @@ function pageStartup() {
     pieChart = new Chart(ctx).Pie(timedata, {
         segmentShowStroke : false
     });
+    // Replacement for the onClick elements
+    document.getElementById("demobutton").addEventListener("click",
+    	function() {
+	    setTimer(10,5);
+    });
+    document.getElementById("rtcbutton").addEventListener("click",
+	showClock, false);
+    document.getElementById("userbutton").addEventListener("click",
+    	function() {
+    });
+    document.getElementById("resumebutton").addEventListener("click",
+	beginTiming, false);
+    document.getElementById("configbutton").addEventListener("click",
+	goConfigure, false);
+    document.getElementById("helpbutton").addEventListener("click",
+	goHelp, false);
+    document.getElementById("textdiv").addEventListener("click",
+	showGui, false);
+    document.getElementById("userbutton").addEventListener("click",
+	userTimer, false);
 }
 
-function userTimer(F) {
-    setTimer(F.userTalk.value*60, F.userQA.value*60);
+function userTimer() {
+    document.getElementById("usertime");
+    setTimer(
+	document.getElementById("user1").value * 60,
+	document.getElementById("user2").value * 60
+    );
 }
 // Just start timing - don't reset the counters
 function beginTiming() {
@@ -199,9 +237,16 @@ function setupGui() {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
 	qsec=p.qa*60;
-	bStr="<button id='preset"+i+"' onClick='setTimer("+psec+","+
-	    qsec+")'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
+	bStr="<button id='preset"+i+"'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
 	presetpane.append(bStr);
+	// Loate the button we just created
+	var pButton=document.getElementById('preset'+i);
+	pButton.qsec=qsec;
+	pButton.psec=psec;
+	// Configure the button to start a timer when clicked
+	pButton.addEventListener("click", function(e) {
+	    setTimer(e.target.psec, e.target.qsec);
+	}, false);
 	// Bind a number key shortcut to the button
 	var scNumKey=i+1;
 	shortcut.remove(scNumKey.toString() );
@@ -211,7 +256,6 @@ function setupGui() {
 	    if (!timerRunning) {
 		// Presets are numbered from 0 but shortcut keys start at 1
 		var presetNum = event.which - 49;
-		console.log ("shortcut " +presetNum.toString() );
 		$("#preset"+presetNum).trigger("click");
 	    }
 	},

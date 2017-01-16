@@ -17,15 +17,15 @@
 	<div id="presets" class="runpreset">
 	</div>
 	<div id="stdButtons" class="runpreset">
-        <button id="demo" onClick="setTimer(10,5)">Demo<br/>10s / 5s</button>
-        <button onClick="showClock()">Real-time<br/>clock</button>
+        <button id="demobutton">Demo<br/>10s / 5s</button>
+        <button id="rtcbutton">Real-time<br/>clock</button>
 	</div>
         <hr/>
         <b>Custom timer: </b> &nbsp;
         <form name="usertime">
-        <input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
+        <input type="text" size="2" id="user1" name="userTalk"> / <input type="text" size="2" id="user2" name="userQA">
         &nbsp;<br/>
-        <input type="button" value="Start timer" onClick="userTimer(this.form)">
+        <input type="button" id="userbutton" value="Start timer">
         </form>
         <hr/>
         <form name="qaMode">
@@ -33,19 +33,19 @@
 	    Use Q&amp;A
         </form>
 	<div class="runpreset">
-        <button onClick="beginTiming()">Resume countdown</button>
+        <button id="resumebutton">Resume countdown</button>
 	</div>
 	<hr/>
 	<p id="version"></p>
-	<button onClick="goConfigure()">Configure</button>
-	<button onClick="goHelp()">Help</button>
+	<button id="configbutton">Configure</button>
+	<button id="helpbutton">Help</button>
     </div>
 
     <div id="mode">JS Timer</div>
     <div id="graphholder">
 	<canvas id="piegraph" ></canvas>
     </div>
-    <div id="textdiv" onClick="showGui()"> 
+    <div id="textdiv"> 
 	<span id="timer"> </span>
     </div>
     
