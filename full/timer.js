@@ -91,7 +91,6 @@ function pageStartup() {
 }
 
 function userTimer() {
-    document.getElementById("usertime");
     setTimer(
 	document.getElementById("user1").value * 60,
 	document.getElementById("user2").value * 60
@@ -108,6 +107,10 @@ function beginTiming() {
     timerRunning=1;
     clearInterval(counter);
     counter=setInterval(timerFunc, 1000);
+    // Remove keyboard focus from all buttons
+    $('button').each(function() {
+    	$(this).blur();
+    });
 }
 // Set the timing counters and start the clock timing
 function setTimer(talkSecs, qaSecs) {
@@ -237,7 +240,7 @@ function setupGui() {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
 	qsec=p.qa*60;
-	bStr="<button id='preset"+i+"'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>";
+	bStr="<button id='preset"+i+"'>"+p.name+"<br/>"+p.pres+" / "+p.qa+"</button>\n";
 	presetpane.append(bStr);
 	// Loate the button we just created
 	var pButton=document.getElementById('preset'+i);
