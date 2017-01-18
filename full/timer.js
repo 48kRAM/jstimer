@@ -7,6 +7,14 @@ var jstConfig = {
 // App versoin
 var jstVersion="2.99.2";
 
+function saveConfig() {
+    if (window.chrome && chrome.runtime && chrome.runtime.id) {
+        chrome.storage.local.set({'jstConfig': JSON.stringify(jstConfig) });
+    } else {
+        // Normal HTML5 browser mode
+        localStorage['jstConfig']=JSON.stringify(jstConfig);
+    }
+}
 function initConfig() {
     // Define some initial defaults if local storage not setup yet
     jstConfig.presets=[
@@ -16,13 +24,7 @@ function initConfig() {
     jstConfig.presVocab='Presentation';
     jstConfig.qaVocab='Question / Answer';
     jstConfig.cfgVer='1.9';
-    if (window.chrome && chrome.runtime && chrome.runtime.id) {
-    	chrome.storage.local.set({'jstConfig': JSON.stringify(jstConfig) });
-    } else {
-	// Normal HTML5 browser mode
-	localStorage['jstConfig']=JSON.stringify(jstConfig);
-    }
-
+    saveConfig();
 }
 function pageStartup() {
     // First startup - called when page is ready
@@ -294,6 +296,34 @@ function goConfigure() {
     $("#gui").hide();
     $("#configtable").show();
     $("#cfgpre").sortable();
+    $("#addpre").click( function(e) {
+	e.preventDefault();
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
+    });
+    $("#cfgsave").click( function(e) {
+        jstConfig.presets = [];
+        var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+        var nElem=$("input[name='name']");
+        jstConfig.presVocab=$("input[name='presVoc']").val();
+        jstConfig.qaVocab=$("input[name='qaVoc']").val();
+
+        for (var i=0, len=pElem.length; i<len; i++) {
+            console.log("Saving preset "+i+", name: "+nElem.eq(i).val());
+            jstConfig.presets[i]={
+                name: nElem.eq(i).val(),
+                pres: pElem.eq(i).val(),
+                qa: qElem.eq(i).val()
+            };
+        }
+        jstConfig.qasoundOn=$("input[name='qasndon']").is(':checked');
+	saveConfig();
+	$("#configuration").hide();
+	$("#graphholder").show();
+	$("#textdiv").show();
+	$("#gui").show();
+        window.location.href="index.html";
+    });
 }
 function goHelp() {
     if(ticks>0) {
