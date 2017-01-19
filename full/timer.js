@@ -5,11 +5,14 @@ var ctx, pieChart; // For the canvas and pie graph
 var jstConfig = {
 };
 // App versoin
-var jstVersion="2.99.4";
+var jstVersion="2.99.5";
 
 function saveConfig() {
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
-        chrome.storage.local.set({'jstConfig': JSON.stringify(jstConfig) });
+	var configString=JSON.stringify(jstConfig);
+        chrome.storage.local.set({'configuration': jstConfig}, function() {
+	    console.log("Data saved");
+	});
 	console.log("Saving storage to chrome");
     } else {
         // Normal HTML5 browser mode
@@ -33,24 +36,39 @@ function pageStartup() {
     // Get config string either from HTML5 of chrome storage
     var configString;
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
-	console.log("Loading chrome storage");
-    	configString = chrome.storage.local.get('jstConfig', function(result) {
-	    configString = result.jstConfig;
+	console.log("Trying to load chrome storage");
+    	chrome.storage.local.get('configuration', function(result) {
+	    if(result.configuration) {
+		console.log("Read jstConfig from chrome storage");
+		jstConfig=result.configuration;
+		if(typeof(jstConfig.cfgVer)==="undefined" ) {
+		    initConfig();
+		    setupGui();
+		} else {
+		    console.log("jstConfig is valid - loading...");
+		    setupGui();
+		}
+	    } else {
+		initConfig();
+		setupGui();
+	    }
 	});
     } else {
 	// Normal HTML5 browser mode
 	configString=localStorage['jstConfig'];
-    }
-    try {
-	jstConfig=JSON.parse(configString);
-    } catch(e) {
-	initConfig();
-    }
-    if(typeof(jstConfig.cfgVer)==="undefined" ) {
-        initConfig();
+	try {
+	    jstConfig=JSON.parse(configString);
+	} catch(e) {
+	    initConfig();
+	}
+	if(typeof(jstConfig.cfgVer)==="undefined" ) {
+	    initConfig();
+	    setupGui();
+	} else {
+	    setupGui();
+	}
     }
 
-    setupGui();
      // Load the sound clip
     $("#timeupsnd").trigger('load');
 
