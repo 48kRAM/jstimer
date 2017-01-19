@@ -5,7 +5,7 @@ var ctx, pieChart; // For the canvas and pie graph
 var jstConfig = {
 };
 // App versoin
-var jstVersion="2.99.2";
+var jstVersion="2.99.4";
 
 function saveConfig() {
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
@@ -90,7 +90,7 @@ function pageStartup() {
 	showGui, false);
     document.getElementById("userbutton").addEventListener("click",
 	userTimer, false);
-    // config buttons
+    $(window).resize(handleResize);
 }
 
 function userTimer() {
@@ -270,12 +270,6 @@ function setupGui() {
     $("#version").html("JSTimer ver. "+jstVersion);
 }
 function goConfigure() {
-    if(ticks>0) {
-	if(!confirm("Are you sure you want to configure now?")) {
-	    return (false);
-	}
-    }
-    //window.location.href="configure.html";
     // Build config page from jstConfig
     var presetDiv=$("#cfgpre");
     for (var i=0, len=jstConfig.presets.length; i<len; i++) {
