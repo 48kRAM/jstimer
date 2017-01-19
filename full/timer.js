@@ -10,6 +10,7 @@ var jstVersion="2.99.4";
 function saveConfig() {
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
         chrome.storage.local.set({'jstConfig': JSON.stringify(jstConfig) });
+	console.log("Saving storage to chrome");
     } else {
         // Normal HTML5 browser mode
         localStorage['jstConfig']=JSON.stringify(jstConfig);
@@ -17,6 +18,7 @@ function saveConfig() {
 }
 function initConfig() {
     // Define some initial defaults if local storage not setup yet
+    console.log("Initializing default settings");
     jstConfig.presets=[
 	{name:'Keynote', pres:50, qa:10},
 	{name:'Invited talk', pres:30, qa:10},
@@ -31,6 +33,7 @@ function pageStartup() {
     // Get config string either from HTML5 of chrome storage
     var configString;
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
+	console.log("Loading chrome storage");
     	configString = chrome.storage.local.get('jstConfig', function(result) {
 	    configString = result.jstConfig;
 	});
@@ -75,21 +78,12 @@ function pageStartup() {
     	function() {
 	    setTimer(10,5);
     });
-    document.getElementById("rtcbutton").addEventListener("click",
-	showClock, false);
-    document.getElementById("userbutton").addEventListener("click",
-    	function() {
-    });
-    document.getElementById("resumebutton").addEventListener("click",
-	beginTiming, false);
-    document.getElementById("configbutton").addEventListener("click",
-	goConfigure, false);
-    document.getElementById("helpbutton").addEventListener("click",
-	goHelp, false);
-    document.getElementById("textdiv").addEventListener("click",
-	showGui, false);
-    document.getElementById("userbutton").addEventListener("click",
-	userTimer, false);
+    $("#rtcbutton").click(showClock);
+    $("#resumebutton").click(beginTiming);
+    $("#configbutton").click(goConfigure);
+    $("#helpbutton").click(goHelp);
+    $("#textdiv").click(showGui);
+    $("#userbutton").click(userTimer);
     $(window).resize(handleResize);
 }
 
@@ -239,6 +233,8 @@ function setupGui() {
     // Draw the controls GUI - called at page startup only
     var bStr, i;
     var presetpane=$("#presets");
+    presetpane.empty();
+
     for (i=0, len=jstConfig.presets.length; i<len; i++) {
         var p=jstConfig.presets[i];
 	psec=p.pres*60;
@@ -272,6 +268,7 @@ function setupGui() {
 function goConfigure() {
     // Build config page from jstConfig
     var presetDiv=$("#cfgpre");
+    presetDiv.empty();
     for (var i=0, len=jstConfig.presets.length; i<len; i++) {
     	var p=jstConfig.presets[i];
 	var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></sp an><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>Del</button> <br/></li>";
@@ -288,7 +285,7 @@ function goConfigure() {
     $("#graphholder").hide();
     $("#textdiv").hide();
     $("#gui").hide();
-    $("#configtable").show();
+    $("#configuration").show();
     $("#cfgpre").sortable();
     $("#addpre").click( function(e) {
 	e.preventDefault();
@@ -315,8 +312,8 @@ function goConfigure() {
 	$("#configuration").hide();
 	$("#graphholder").show();
 	$("#textdiv").show();
+	setupGui();
 	$("#gui").show();
-        window.location.href="index.html";
     });
 }
 function goHelp() {
