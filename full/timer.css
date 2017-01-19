@@ -94,6 +94,7 @@ td#configtable {
 #version {
 	font-size: .6em;
 }
-#configtable {
+#configuration {
 	display: none;
+	margin-top: -100px;
 }
