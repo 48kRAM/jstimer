@@ -137,7 +137,7 @@ function pageStartup() {
 
     $("#addpre").click( function(e) {
 	e.preventDefault();
-	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <button class='remPre'>Del</button> <br/></li>");
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <button class='remPre'>Delete</button> <br/></li>");
 
 	// Reset the Del buttons and make the new one work
 	$("#cfgPre").off("click", ".remPre");
@@ -331,7 +331,7 @@ function goConfigure() {
     presetDiv.empty();
     for (var i=0, len=jstConfig.presets.length; i<len; i++) {
     	var p=jstConfig.presets[i];
-	var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></sp an><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>Del</button> <br/></li>";
+	var pStr="<li class='ui-state-default' ><span class='ui-icon ui-icon-arrowthick-2-n-s'></sp an><input type='text' size=16 name='name' value='"+p.name+"'/><br/><input type='text' size=3 name='pres' value='"+p.pres+"'/> / <input type='text' size=3 name='qa' value='"+p.qa+"'/> <button class='remPre'>Delete</button> <br/></li>";
 	presetDiv.append(pStr);
     }
     $("input[name='presVoc']").val(jstConfig.presVocab);
@@ -346,16 +346,12 @@ function goConfigure() {
     $("#textdiv").hide();
     $("#gui").hide();
     $("#configuration").show();
-    $("#cfgpre").sortable();
+    $("#cfgpre").sortable({
+	cursor: "move"
+    });
 }
 function goHelp() {
-    if(ticks>0) {
-	if(confirm("This will reset the current timer. Are you sure?")) {
-	    window.location.href="help.html";
-	}
-    } else {
-	window.location.href="help.html";
-    }
+    window.open("help.html");
 }
 
 function handleResize() {
