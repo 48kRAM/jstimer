@@ -137,7 +137,13 @@ function pageStartup() {
 
     $("#addpre").click( function(e) {
 	e.preventDefault();
-	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <button class='remPre'>Del</button> <br/></li>");
+
+	// Reset the Del buttons and make the new one work
+	$("#cfgPre").off("click", ".remPre");
+	$(".remPre").click( function(e) {
+	    $(this).closest("li").remove();
+	});
     });
 }
 
@@ -330,7 +336,7 @@ function goConfigure() {
     }
     $("input[name='presVoc']").val(jstConfig.presVocab);
     $("input[name='qaVoc']").val(jstConfig.qaVocab);
-    // Sortable preset list
+    // Set all the Delete buttons to remove their corresponding box
     $(".remPre").click( function(e) {
 	$(this).closest("li").remove();
     });
