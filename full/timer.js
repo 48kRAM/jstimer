@@ -91,6 +91,7 @@ function pageStartup() {
     pieChart = new Chart(ctx).Pie(timedata, {
         segmentShowStroke : false
     });
+
     // Replacement for the onClick elements
     document.getElementById("demobutton").addEventListener("click",
     	function() {
@@ -103,6 +104,41 @@ function pageStartup() {
     $("#textdiv").click(showGui);
     $("#userbutton").click(userTimer);
     $(window).resize(handleResize);
+
+    // Saving timer configuration
+    $("#cfgsave").click( function(e) {
+        jstConfig.presets = [];
+        var pElem=$("input[name='pres']");
+        var qElem=$("input[name='qa']");
+        var nElem=$("input[name='name']");
+        jstConfig.presVocab=$("input[name='presVoc']").val();
+        jstConfig.qaVocab=$("input[name='qaVoc']").val();
+
+	var presetNum=0;
+        for (var i=0, len=pElem.length; i<len; i++) {
+	    if(nElem.eq(i).val() != "") {
+		console.log("Saving preset "+presetNum+", name: "+nElem.eq(i).val());
+		jstConfig.presets[presetNum]={
+		    name: nElem.eq(i).val(),
+		    pres: pElem.eq(i).val(),
+		    qa: qElem.eq(i).val()
+		};
+		presetNum++;
+	    }
+        }
+        jstConfig.qasoundOn=$("input[name='qasndon']").is(':checked');
+	saveConfig();
+	$("#configuration").hide();
+	$("#graphholder").show();
+	$("#textdiv").show();
+	setupGui();
+	$("#gui").show();
+    });
+
+    $("#addpre").click( function(e) {
+	e.preventDefault();
+	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
+    });
 }
 
 function userTimer() {
@@ -305,34 +341,6 @@ function goConfigure() {
     $("#gui").hide();
     $("#configuration").show();
     $("#cfgpre").sortable();
-    $("#addpre").click( function(e) {
-	e.preventDefault();
-	$("#cfgpre").append("<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span><input type='text' size=16 name='name' /><br/><input type='text' size=3 name='pres' /> / <input type='text' size=3 name='qa'/> <br/></li>");
-    });
-    $("#cfgsave").click( function(e) {
-        jstConfig.presets = [];
-        var pElem=$("input[name='pres']");
-        var qElem=$("input[name='qa']");
-        var nElem=$("input[name='name']");
-        jstConfig.presVocab=$("input[name='presVoc']").val();
-        jstConfig.qaVocab=$("input[name='qaVoc']").val();
-
-        for (var i=0, len=pElem.length; i<len; i++) {
-            console.log("Saving preset "+i+", name: "+nElem.eq(i).val());
-            jstConfig.presets[i]={
-                name: nElem.eq(i).val(),
-                pres: pElem.eq(i).val(),
-                qa: qElem.eq(i).val()
-            };
-        }
-        jstConfig.qasoundOn=$("input[name='qasndon']").is(':checked');
-	saveConfig();
-	$("#configuration").hide();
-	$("#graphholder").show();
-	$("#textdiv").show();
-	setupGui();
-	$("#gui").show();
-    });
 }
 function goHelp() {
     if(ticks>0) {
