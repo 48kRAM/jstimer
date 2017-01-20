@@ -1,0 +1,15 @@
+{
+    "name": "JSTimer",
+    "description": "Conference countdown timer for presentation sessions.",
+    "version": "2.99.5",
+    "manifest_version": 2,
+    "app": {
+	"background": {
+	    "scripts": ["background.js"]
+	}
+    },
+    "permissions": [
+	"storage"
+    ],
+    "icons": { "16": "jstimer_icon-16.png", "128": "jstimer_icon-128.png" }
+}
