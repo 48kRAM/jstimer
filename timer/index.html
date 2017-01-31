@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -8,6 +8,7 @@
     <script src="jquery.js"></script>
     <script src="jquery-ui.js"></script>
     <script src="timer.js"></script>
+    <script src="shortcut.js"></script>
 </head>
 <body>
 <div id="screen">
@@ -16,15 +17,15 @@
 	<div id="presets" class="runpreset">
 	</div>
 	<div id="stdButtons" class="runpreset">
-        <button id="demo" onClick="startTimer(15,10)">Demo<br/>15s / 10s</button>
-        <button onClick="showClock()">Real-time<br/>clock</button>
+        <button id="demobutton">Demo<br/>10s / 5s</button>
+        <button id="rtcbutton">Real-time<br/>clock</button>
 	</div>
         <hr/>
         <b>Custom timer: </b> &nbsp;
         <form name="usertime">
-        <input type="text" size="2" name="userTalk"> / <input type="text" size="2" name="userQA">
+        <input type="text" size="2" id="user1" name="userTalk"> / <input type="text" size="2" id="user2" name="userQA">
         &nbsp;<br/>
-        <input type="button" value="Start timer" onClick="userTimer(this.form)">
+        <input type="button" id="userbutton" value="Start timer">
         </form>
         <hr/>
         <form name="qaMode">
@@ -32,38 +33,86 @@
 	    Use Q&amp;A
         </form>
 	<div class="runpreset">
-        <button onClick="startTimer(0,0)">Resume countdown</button>
+        <button id="resumebutton">Resume countdown</button>
 	</div>
 	<hr/>
-	<button onClick="goConfigure()">Configure</button>
-	<button onClick="goHelp()">Help</button>
+	<p id="version"></p>
+	<button id="configbutton">Configure</button>
+	<button id="helpbutton">Help</button>
     </div>
 
     <div id="mode">JS Timer</div>
     <div id="graphholder">
 	<canvas id="piegraph" ></canvas>
     </div>
-    <div id="textdiv" onClick="showGui()"> 
+    <div id="textdiv"> 
 	<span id="timer"> </span>
     </div>
-    
-    <script language="Javascript">
-    $(document).ready(pageStartup);
-    var ctx = document.getElementById("piegraph").getContext("2d");
-    // Set canvas size based on viewport dimensions
-    Chart.defaults.global.animation=false;
-    var pieChart = new Chart(ctx).Pie(timedata, {
-	segmentShowStroke : false
+    <div id="configuration">
 
-	});
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('keydown', handleKey);
-    </script>
+    <table id="configtable">
+    <form id="setform">
+    <tr>
+      <td rowspan="4" valign="top">
+        <div class="helptext">
+          <h2>Configure JS Timer</h2>
+          <p>
+          Configure the timer preset buttons using the fields on the right.
+          For each present, enter a Preset Name in the top field, and the 
+          time slots in the bottom two fields. The first time field (left)
+          is the number of minutes for the talk / presentation. The second
+          field (right) is the number of minutes for the Q&amp;A period.
+          </p>
+          <p>If you don't want to use the Q&amp;A period, simply leave the
+          right-hand time field blank.
+          </p>
+          <p>Click "Save settings" to save your presets or "Cancel" to discard
+          changes and return to the original presets.</p>
+        </div>
+      </td>
+      <td valign="top">
+        <div class="preset">
+            Presentation time label:
+            <input type="text" size="20" name="presVoc" />
+        </div>
+        <div class="preset">
+            Q&A time label:
+            <input type="text" size="20" name="qaVoc" />
+        </div>
+        <div class="preset">
+            Play sound when starting Q&A
+            <input type="checkbox" name="qasndon" >
+        </div>
+      </td>
+      <td valign="top">
+        <div class="preset">
+	Timer Presets<br/>
+	(Drag to re-order)<br/>
+        <ul id="cfgpre">
+        </ul>
+        <button id="addpre">Add preset</button>
+        </div>
+      </td>
+    </tr>
+    </form>
+    <tr>
+      <td></td>
+      <td>
+        <button id="cfgsave">Save settings</button>
+        <button id="cfgcancel">Cancel</button>
+      </td>
+    </tr>
+    </table>
+
+    </div>
+    
     <audio id="timeupsnd">
-    	<source src="sound/ping2.mp3"></source>
-	JSTimer requires an HTML5-compliant browser. Audio 
-	will not function.
+    	<source src="sound/end_beep.mp3"></source>
+	JSTimer requires an HTML5-compliant browser. Audio will not function.
+    </audio>
+    <audio id="qasnd">
+    	<source src="sound/qa_beep.mp3"></source>
+	JSTimer requires an HTML5-compliant browser. Audio will not function.
     </audio>
 
 </div> <!-- screen -->
