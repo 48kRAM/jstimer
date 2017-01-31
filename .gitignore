@@ -1,2 +1,8 @@
 .*.swp
 .DS_Store
+node/**
+!node/package.json
+!node/main.js
+chrome/**
+!chrome/manifest.json
+!chrome/background.js
