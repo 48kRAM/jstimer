@@ -5,7 +5,7 @@ var ctx, pieChart; // For the canvas and pie graph
 var jstConfig = {
 };
 // App versoin
-var jstVersion="2.99.5";
+var jstVersion="3.0";
 
 function saveConfig() {
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
@@ -128,6 +128,13 @@ function pageStartup() {
         }
         jstConfig.qasoundOn=$("input[name='qasndon']").is(':checked');
 	saveConfig();
+	$("#configuration").hide();
+	$("#graphholder").show();
+	$("#textdiv").show();
+	setupGui();
+	$("#gui").show();
+    });
+    $("#cfgcancel").click( function(e) {
 	$("#configuration").hide();
 	$("#graphholder").show();
 	$("#textdiv").show();

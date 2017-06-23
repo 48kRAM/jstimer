@@ -1,28 +1,6 @@
 {
     "description": "Conference countdown timer", 
-    "nodejs": true, 
-    "single-instance": true, 
-    "webkit": {
-        "page-cache": false, 
-        "java": false, 
-        "plugin": true
-    }, 
-    "window": {
-        "fullscreen": false, 
-        "resizable": true, 
-        "title": "JS Timer", 
-        "always-on-top": false, 
-        "frame": true, 
-        "height": 600, 
-        "min_height": 600, 
-        "visible": true, 
-        "min_width": 800, 
-        "position": "center", 
-        "show_in_taskbar": true, 
-        "width": 800, 
-        "toolbar": false
-    }, 
-    "version": "1.0.0", 
-    "main": "index.html",
+    "version": "2.99.0", 
+    "main": "main.js",
     "name": "JS Timer"
 }
