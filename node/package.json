@@ -9,9 +9,7 @@
         "start": "electron ."
     },
     "devDependencies": {
-        "electron": "^2.0.2"
-    },
-    "dependencies": {
+        "electron": "^2.0.2",
         "electron-packager": "^12.1.0"
     }
 }
