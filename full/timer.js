@@ -5,7 +5,7 @@ var ctx, pieChart; // For the canvas and pie graph
 var jstConfig = {
 };
 // App versoin
-var jstVersion="3.0.9";
+var jstVersion="3.1";
 
 const monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
     "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -289,11 +289,13 @@ function clockFunc() {
     var minute=now.getMinutes();
     var period;
     $("#mode").html(weekday+", " +month +" "+day);
-    if (hour > 12) {
-        hour-=12;
+    if (hour > 11) {
         period="<span style='font-size: 40%;'> PM</span>";
     } else {
         period="<span style='font-size: 40%;'> AM</span>";
+    }
+    if (hour > 12) {
+        hour-=12;
     }
     if (minute < 10) { minute='0'+minute; }
     $("#timer").html(hour+":"+minute+period);
