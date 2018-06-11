@@ -7,6 +7,10 @@ var jstConfig = {
 // App versoin
 var jstVersion="3.0";
 
+const monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+    "Aug", "Sep", "Oct", "Nov", "Dec"];
+const dayName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 function saveConfig() {
     if (window.chrome && chrome.runtime && chrome.runtime.id) {
 	var configString=JSON.stringify(jstConfig);
@@ -275,14 +279,24 @@ function timeUpFlash() {
 function clockFunc() {
     // Tick handler for the time-of-day (ToD) clock mode
     var now=new Date();
+    var month=monthName[now.getMonth()];
+    var weekday=dayName[now.getDay()];
+    var day=now.getDate();
     var hour=now.getHours();
     var minute=now.getMinutes();
-    if (hour > 12) { hour-=12; }
+    var period;
+    $("#mode").html(weekday+", " +month +" "+day);
+    if (hour > 12) {
+        hour-=12;
+        period="<span style='font-size: 40%;'> PM</span>";
+    } else {
+        period="<span style='font-size: 40%;'> AM</span>";
+    }
     if (minute < 10) { minute='0'+minute; }
-    $("#timer").html(hour+":"+minute);
+    $("#timer").html(hour+":"+minute+period);
 }
 function showClock() {
-    $("#mode").html("Time of Day");
+    $("#mode").html("");
     $("#gui").hide("fast");
     $("#graphholder").hide();
     var t=$("#timer")
