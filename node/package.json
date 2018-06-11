@@ -1,8 +1,10 @@
 {
-    "description": "Conference countdown timer", 
-    "version": "3.1",
+    "name": "JS-Timer",
+    "version": "3.1.0",
+    "description": "Conference countdown timer",
     "main": "main.js",
-    "name": "JS Timer"
+    "license": "MIT",
+    "author": "Josh Malone",
     "scripts": {
         "start": "electron ."
     },
