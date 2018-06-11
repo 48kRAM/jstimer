@@ -5,7 +5,7 @@ var ctx, pieChart; // For the canvas and pie graph
 var jstConfig = {
 };
 // App versoin
-var jstVersion="3.0";
+var jstVersion="3.0.9";
 
 const monthName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
     "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -269,8 +269,11 @@ function showGui() {
     $("#timer").removeClass('timerred');
     $("#gui").show("fast");
     // Interrupt the countdown whenever GUI is shown
-    timerRunning=0;
-    clearInterval(counter);
+    if (timerRunning == 1) {
+        // Interrupting countdown - stop clock
+        timerRunning=0;
+        clearInterval(counter);
+    }
 }
 function timeUpFlash() {
     // Flash the time-up text red / black
@@ -308,6 +311,7 @@ function showClock() {
     clockFunc();
     // Update clock every second
     counter=setInterval(clockFunc, 1000);
+    timerRunning=2;
 }
 
 function setupGui() {
